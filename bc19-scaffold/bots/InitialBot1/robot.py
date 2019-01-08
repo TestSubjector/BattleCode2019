@@ -12,8 +12,10 @@ __pragma__('tconv')
 
 # Pilgrims
 def pilgrim_move(self):
-    pilgrim_position_x = self.x
-    pilgrim_position_y = self.y
+    pilgrim_position_x = self.me.x
+    pilgrim_position_y = self.me.y
+    
+    # self.log(pilgrim_position_x)
     # min_distance = 
 
 
