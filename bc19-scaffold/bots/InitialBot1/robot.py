@@ -9,6 +9,19 @@ __pragma__('tconv')
 
 # don't try to use global variables!!
 
+
+# Pilgrims
+def pilgrim_move(self):
+    pilgrim_position_x = self.x
+    pilgrim_position_y = self.y
+    # min_distance = 
+
+
+def pilgrim(self):
+    pilgrim_move(self)
+
+
+# Crusaders
 def crusaders_move(self):
     # self.log("Crusader health: " + str(self.me['health']))
     # The directions: North, NorthEast, East, SouthEast, South, SouthWest, West, NorthWest
@@ -21,9 +34,11 @@ class MyRobot(BCAbstractRobot):
 
     step = -1
 
+
     def turn(self):
         self.step += 1
 
+        unit_type = self.me['unit']
         unit_castle = SPECS['CASTLE']
         unit_church = SPECS['CHURCH']
         unit_crusader = SPECS['CRUSADER']
@@ -34,18 +49,23 @@ class MyRobot(BCAbstractRobot):
 
         # self.log("START TURN " + self.step)
         
+        if self.step % 50 == 0:
+            self.log("Total current karbonite is " + str(self.karbonite))
         
-        if self.me['unit'] == unit_crusader:
-            return self.move(crusaders_move(self))
+        if unit_type == unit_crusader:
+            None
+            # return self.move(crusaders_move(self))
 
-        elif self.me['unit'] == unit_castle:
-            if self.step < 10:
+        elif unit_type == unit_castle:
+            if self.step < 100:
                 # self.log("Building a crusader at " + str(self.me['x']+1) + ", " + str(self.me['y']+1))
-                return self.build_unit(unit_crusader, 1, 1)
+                return self.build_unit(unit_pilgrim, 1, 1)
 
             else:
                 None
                 # self.log("Castle health: " + self.me['health'])
+        elif unit_type == unit_pilgrim:
+            pilgrim(self)
 
 robot = MyRobot()
 
