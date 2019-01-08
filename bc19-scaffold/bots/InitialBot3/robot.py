@@ -2,6 +2,7 @@ from battlecode import BCAbstractRobot, SPECS
 import battlecode as bc
 import random
 
+from castle import *
 from crusaders import *
 from pilgrims import *
 
@@ -47,12 +48,7 @@ class MyRobot(BCAbstractRobot):
             return self.move(crusaders_move(self))
 
         if unit_type == unit_castle:
-            if self.step < 5:
-                # self.log("Building a crusader at " + str(self.me['x']+1) + ", " + str(self.me['y']+1))
-                return self.build_unit(unit_pilgrim, 1, 1)
-            else:
-                None
-                # self.log("Castle health: " + self.me['health'])
+            return castle(self)
         elif unit_type == unit_pilgrim:
             return pilgrim(self)
 
