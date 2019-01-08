@@ -27,11 +27,11 @@ class Pilgrim():
         self.pos_y = robot.me.y
         self.passable_map = robot.get_passable_map()
         self.karb_map = robot.get_karbonite_map()
-        self.fuel_map = robot.get_fuel_map() 
-        
+        self.fuel_map = robot.get_fuel_map()
+
         self.pilgrim(robot)
 
-    
+
     def pilgrim_move(self, robot):
 
         if self.karb_map[self.pos_x + 1][self.pos_y + 1] == 1 or self.fuel_map[self.pos_x + 1][self.pos_y + 1] == 1:
@@ -48,7 +48,7 @@ class Pilgrim():
             robot.move(-1, -1)
         elif self.karb_map[self.pos_x - 1][self.pos_y - 1] == 1 or self.fuel_map[self.pos_x - 1][self.pos_y - 1] == 1:
             robot.move(-1, -1)
-    
+
         # if passable_map[pos_x + 1][pos_y + 1] == 1:
 
     def pilgrim_mine(self, robot):
@@ -58,15 +58,15 @@ class Pilgrim():
 
     def pilgrim(self, robot):
 
-        self.full_karb = robot.me.karbonite 
+        self.full_karb = robot.me.karbonite
         self.full_fuel = robot.me.fuel
-    
+
         if self.full_fuel > 69 or self.full_karb > 17:
             go_home(robot)
         elif self.pilgrim_mine(robot):
             return 1
         elif self.pilgrim_move(robot):
-            return 2    
+            return 2
 
 
 
@@ -93,14 +93,13 @@ class MyRobot(BCAbstractRobot):
         unit_crusader = SPECS['CRUSADER']
         unit_pilgrim = SPECS['PILGRIM']
         unit_preacher = SPECS['PREACHER']
-        unit_priest = SPECS['PRIEST']
         unit_prophet = SPECS['PROPHET']
 
         # self.log("START TURN " + self.step)
-        
+
         if self.step % 250 == 0:
             self.log("Total current karbonite is " + str(self.karbonite))
-        
+
         if unit_type == unit_crusader:
             None
             # return self.move(crusaders_move(self))
