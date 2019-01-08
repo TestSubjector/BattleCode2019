@@ -137,7 +137,7 @@ class MyRobot(BCAbstractRobot):
         unit_prophet = SPECS['PROPHET']
 
         # self.log("START TURN " + self.step)
-        
+
         if self.step % 250 == 0:
             self.log("Total current karbonite is " + str(self.karbonite))
         
