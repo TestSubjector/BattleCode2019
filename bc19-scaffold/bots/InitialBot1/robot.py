@@ -21,53 +21,94 @@ def find_unit_type(self, map):
 
 # Pilgrims
 
-class Pilgrim():
-    def __init__(self, robot):
-        self.pos_x = robot.me.x
-        self.pos_y = robot.me.y
-        self.passable_map = robot.get_passable_map()
-        self.karb_map = robot.get_karbonite_map()
-        self.fuel_map = robot.get_fuel_map() 
+def pilgrim_mine(robot):
+    pos_x = robot.me.x
+    pos_y = robot.me.y
+
+    karb_map = robot.get_karbonite_map()
+    fuel_map = robot.get_fuel_map()
+    if karb_map[pos_x][pos_y] == 1 or fuel_map[pos_x][pos_y] == 1:
+        return robot.mine()
+    else:
+        return 0        
         
-        self.pilgrim(robot)
+def pilgrim_move(robot):
+    pos_x = robot.me.x
+    pos_y = robot.me.y
+    passable_map = robot.get_passable_map()
+    karb_map = robot.get_karbonite_map()
+    fuel_map = robot.get_fuel_map()
+    # May change for impossible resources
+    # NE
+    if karb_map[pos_x + 1][pos_y + 1] == 1 or fuel_map[pos_x + 1][pos_y + 1] == 1:
+        return robot.move(1, 1)
+    # E
+    elif karb_map[pos_x + 1][pos_y + 0] == 1 or fuel_map[pos_x + 1][pos_y + 0] == 1:
+        return robot.move(0, 1)
+    # SE
+    elif karb_map[pos_x + 1][pos_y - 1] == 1 or fuel_map[pos_x + 1][pos_y - 1] == 1:
+        return robot.move(-1, 1)
+    # S
+    elif karb_map[pos_x + 0][pos_y - 1] == 1 or fuel_map[pos_x + 0][pos_y - 1] == 1:
+        return robot.move(-1, 0)
+    # SW
+    elif karb_map[pos_x - 1][pos_y - 1] == 1 or fuel_map[pos_x - 1][pos_y - 1] == 1:
+        return robot.move(-1, -1)
+    # W
+    elif karb_map[pos_x - 1][pos_y + 0] == 1 or fuel_map[pos_x - 1][pos_y + 0] == 1:
+        return robot.move(0, -1)
+    # NW
+    elif karb_map[pos_x - 1][pos_y + 1] == 1 or fuel_map[pos_x - 1][pos_y + 1] == 1:
+        return robot.move(1, -1)
+    # N
+    elif karb_map[pos_x + 0][pos_y + 1] == 1 or fuel_map[pos_x + 0][pos_y + 1] == 1:
+        return robot.move(1, 0)
+    else:
+        # Just move
+        if passable_map[pos_x + 1][pos_y + 1] == 1:
+            return robot.move(1, 1)
+        # E
+        elif passable_map[pos_x + 1][pos_y + 0] == 1:
+            return robot.move(0, 1)
+        # SE
+        elif passable_map[pos_x + 1][pos_y - 1] == 1:
+            return robot.move(-1, 1)
+        # S
+        elif passable_map[pos_x + 0][pos_y - 1] == 1:
+            return robot.move(-1, 1)
+        # SW
+        elif passable_map[pos_x - 1][pos_y - 1] == 1:
+            return robot.move(-1, -1)
+        # W
+        elif passable_map[pos_x - 1][pos_y + 0] == 1:
+            return robot.move(0, -1)
+        # NW
+        elif passable_map[pos_x - 1][pos_y + 1] == 1:
+            return robot.move(-1, 1)
+        # N
+        elif passable_map[pos_x + 0][pos_y + 1] == 1:
+            return robot.move(1, 0)
+        else: 
+            return 0
 
+def pilgrim(robot):
+    carry_karb = robot.me.karbonite 
+    carry_fuel = robot.me.fuel
+    pos_x = robot.me.x
+    pos_y = robot.me.y
     
-    def pilgrim_move(self, robot):
-
-        if self.karb_map[self.pos_x + 1][self.pos_y + 1] == 1 or self.fuel_map[self.pos_x + 1][self.pos_y + 1] == 1:
-            robot.move(1, 1)
-        elif self.karb_map[self.pos_x + 1][self.pos_y + 0] == 1 or self.fuel_map[self.pos_x + 1][self.pos_y + 0] == 1:
-            robot.move(1, 0)
-        elif self.karb_map[self.pos_x + 1][self.pos_y - 1] == 1 or self.fuel_map[self.pos_x + 1][self.pos_y - 1] == 1:
-            robot.move(1, -1)
-        elif self.karb_map[self.pos_x + 0][self.pos_y - 1] == 1 or self.fuel_map[self.pos_x + 0][self.pos_y - 1] == 1:
-            robot.move(0, -1)
-        elif self.karb_map[self.pos_x - 1][self.pos_y - 1] == 1 or self.fuel_map[self.pos_x - 1][self.pos_y - 1] == 1:
-            robot.move(-1, -1)
-        elif self.karb_map[self.pos_x - 1][self.pos_y - 1] == 1 or self.fuel_map[self.pos_x - 1][self.pos_y - 1] == 1:
-            robot.move(-1, -1)
-        elif self.karb_map[self.pos_x - 1][self.pos_y - 1] == 1 or self.fuel_map[self.pos_x - 1][self.pos_y - 1] == 1:
-            robot.move(-1, -1)
+    # if carry_fuel > 69 or carry_karb > 17:
+    #     go_home(robot)
     
-        # if passable_map[pos_x + 1][pos_y + 1] == 1:
-
-    def pilgrim_mine(self, robot):
-
-        if self.karb_map[self.pos_x][self.pos_y] == 1 or self.fuel_map[self.pos_x][self.pos_y] == 1:
-            robot.mine()
-
-    def pilgrim(self, robot):
-
-        self.full_karb = robot.me.karbonite 
-        self.full_fuel = robot.me.fuel
+    robot.log('Position is ' + str(pos_x) + ' ' + str(pos_y))
+    ab =  pilgrim_mine(robot)
+    if ab !=0:
+        return ab
+    else:
+        bc = pilgrim_move(robot)
+        if bc !=0:
+            return bc
     
-        if self.full_fuel > 69 or self.full_karb > 17:
-            go_home(robot)
-        elif self.pilgrim_mine(robot):
-            return 1
-        elif self.pilgrim_move(robot):
-            return 2    
-
 
 
 # Crusaders
@@ -93,7 +134,6 @@ class MyRobot(BCAbstractRobot):
         unit_crusader = SPECS['CRUSADER']
         unit_pilgrim = SPECS['PILGRIM']
         unit_preacher = SPECS['PREACHER']
-        unit_priest = SPECS['PRIEST']
         unit_prophet = SPECS['PROPHET']
 
         # self.log("START TURN " + self.step)
@@ -101,18 +141,17 @@ class MyRobot(BCAbstractRobot):
         if self.step % 250 == 0:
             self.log("Total current karbonite is " + str(self.karbonite))
         
-        if unit_type == unit_crusader:
-            None
-            # return self.move(crusaders_move(self))
+        # if unit_type == unit_crusader:
+        #     return self.move(crusaders_move(self))
 
         elif unit_type == unit_castle:
-            if self.step < 2:
+            if self.step < 5:
                 # self.log("Building a crusader at " + str(self.me['x']+1) + ", " + str(self.me['y']+1))
                 return self.build_unit(unit_pilgrim, 1, 1)
             else:
                 None
                 # self.log("Castle health: " + self.me['health'])
         elif unit_type == unit_pilgrim:
-            Pilgrim(self)
+            return pilgrim(self)
 
 robot = MyRobot()
