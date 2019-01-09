@@ -4,11 +4,11 @@ from battlecode import SPECS
 # Add code for locked castles
 
 def castle(robot):
-    if robot.step < 3:
+    if robot.step < 2:
         # self.log("Building a crusader at " + str(self.me['x']+1) + ", " + str(self.me['y']+1))
         return castle_build(robot, SPECS['PILGRIM'])
-    elif robot.step > 60 and robot.karbonite > 100 and robot.fuel > 200:
-        return castle_build(robot, SPECS['PILGRIM'])
+    # elif robot.step > 500 and robot.karbonite > 100 and robot.fuel > 200:
+    #     return castle_build(robot, SPECS['PILGRIM'])
     else:
         None
         # self.log("Castle health: " + self.me['health'])

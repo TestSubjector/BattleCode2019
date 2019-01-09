@@ -1,5 +1,6 @@
 from battlecode import SPECS
 import utility
+import vision
 
 def pilgrim(robot):
     carry_karb = robot.me.karbonite
@@ -21,6 +22,8 @@ def pilgrim(robot):
             return bc
 
 def pilgrim_move(robot):
+    if robot.fuel <= 2 :
+        return 0
     pos_x = robot.me.x
     pos_y = robot.me.y
 
@@ -57,6 +60,8 @@ def pilgrim_full(robot):
 
     pos_x = robot.me.x
     pos_y = robot.me.y
+    carry_karb = robot.me.karbonite
+    carry_fuel = robot.me.fuel
 
     karb_map = robot.get_karbonite_map()
     fuel_map = robot.get_fuel_map()
@@ -65,6 +70,16 @@ def pilgrim_full(robot):
     directions = utility.cells_around()
 
     if karb_map[pos_y][pos_x] == 1 or fuel_map[pos_y][pos_x] == 1:
+        friendly_units = vision.sort_visible_friendlies_by_distance(robot)
+        if friendly_units:
+            for f_unit in friendly_units:
+                if f_unit.unit == unit_church:
+                    if abs(f_unit.x - pos_x) <= 1 and abs(f_unit.y - pos_y) <= 1:
+                        # robot.log("Giving church " + str(f_unit.id) + " " + str(carry_karb) + " karbonite and " + str(carry_fuel) + " fuel.")
+                        # robot.log(str(f_unit))
+                        # robot.log(str(robot.me))
+                        # robot.log(str((f_unit.x - pos_x, f_unit.y - pos_y)))
+                        # return robot.give(f_unit.x - pos_x, f_unit.y - pos_y, carry_karb, carry_fuel)
         for direction in directions:
             if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and (karb_map[pos_y + direction[0]][pos_x + direction[1]] != 1 or fuel_map[pos_y + direction[0]][pos_x + direction[1]] != 1) and passable_map[pos_y + direction[0]][pos_x + direction[1]] == 1:
                 if robot.karbonite > 50 and robot.fuel > 200:
