@@ -1,6 +1,5 @@
 from battlecode import BCAbstractRobot, SPECS
 import battlecode as bc
-import random
 
 from castle import *
 from crusaders import *
