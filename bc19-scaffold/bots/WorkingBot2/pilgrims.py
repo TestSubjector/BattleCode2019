@@ -8,7 +8,7 @@ def pilgrim(robot):
     pos_x = robot.me.x
     pos_y = robot.me.y
 
-    if carry_fuel > 50 or carry_karb > 16 :
+    if carry_fuel > 80 or carry_karb > 18 :
         # robot.log("Nearing capacity")
         return pilgrim_full(robot)
 
@@ -77,11 +77,11 @@ def pilgrim_full(robot):
                 dy = f_unit.y - pos_y
                 if f_unit.unit == unit_church: 
                     # robot.log(str((dx, dy)))
-                    if abs(dx) <= 1 and abs(dy) <= 1 and (robot.get_visible_robot_map()[pos_y + dy][pos_x + dx] > 0):
-                        robot.log("Giving church " + str(f_unit.id) + " " + str(carry_karb) + " karbonite and " + str(carry_fuel) + " fuel.")
-                        robot.log(str(f_unit))
-                        robot.log(str(robot.me))
-                        robot.log(str((dx, dy)))
+                    if (dy, dx in directions) and abs(dx) <= 1 and abs(dy) <= 1 and (robot.get_visible_robot_map()[pos_y + dy][pos_x + dx] > 0):
+                        # robot.log("Giving church " + str(f_unit.id) + " " + str(carry_karb) + " karbonite and " + str(carry_fuel) + " fuel.")
+                        # robot.log(str(f_unit))
+                        # robot.log(str(robot.me))
+                        # robot.log(str((dx, dy)))
                         # if utility.is_cell_occupied(occupied_map, pos_x + f_unit.x - pos_x, pos_y + f_unit.y - pos_y):
                         #     robot.log("Exists")
                         return robot.give(dx, dy, carry_karb, carry_fuel)
