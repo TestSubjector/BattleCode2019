@@ -1,6 +1,8 @@
 import utility
 from battlecode import SPECS
 
+# Add code for locked castles
+
 def castle(robot):
     if robot.step < 3:
         # self.log("Building a crusader at " + str(self.me['x']+1) + ", " + str(self.me['y']+1))

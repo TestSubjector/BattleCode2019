@@ -66,7 +66,8 @@ def pilgrim_full(robot):
 
     if karb_map[pos_y][pos_x] == 1 or fuel_map[pos_y][pos_x] == 1:
         for direction in directions:
-            if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0]))  and (karb_map[pos_y + direction[0]][pos_x + direction[1]] != 1 or fuel_map[pos_y + direction[0]][pos_x + direction[1]] != 1):
+            if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and (karb_map[pos_y + direction[0]][pos_x + direction[1]] != 1 or fuel_map[pos_y + direction[0]][pos_x + direction[1]] != 1) and passable_map[pos_y + direction[0]][pos_x + direction[1]] == 1:
                 if robot.karbonite > 50 and robot.fuel > 200:
                     robot.log("Drop a church like it's hot")
                     return robot.build_unit(unit_church, direction[1], direction[0])
+
