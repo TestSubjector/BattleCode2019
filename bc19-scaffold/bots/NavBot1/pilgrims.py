@@ -56,6 +56,7 @@ def pilgrim_mine(robot):
         return 0
 
 def pilgrim_full(robot):
+    unit_castle = SPECS['CASTLE']
     unit_church = SPECS['CHURCH']
 
     pos_x = robot.me.x
@@ -75,7 +76,7 @@ def pilgrim_full(robot):
             for f_unit in friendly_units:
                 dx = f_unit.x - pos_x
                 dy = f_unit.y - pos_y
-                if f_unit.unit == unit_church:
+                if f_unit.unit == unit_church or f_unit.unit == unit_castle:
                     if (dy, dx in directions) and abs(dx) <= 1 and abs(dy) <= 1 and (robot.get_visible_robot_map()[pos_y + dy][pos_x + dx] > 0):
                         return robot.give(dx, dy, carry_karb, carry_fuel)
 

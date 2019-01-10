@@ -15,7 +15,6 @@ __pragma__('tconv')
 
 # Helper Function
 
-
 def go_home(self):
     unit_map = self.getVisibleRobotMap()
     unit_type  = SPECS['CASTLE']

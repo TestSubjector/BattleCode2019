@@ -3,7 +3,7 @@ def sort_visible_units_by_distance(robot):
 
     bots = []
     bots_distance = []
-    if visible is None:
+    if visible == None:
         return []
     for r in visible:
         if not robot.is_visible(r):
@@ -19,7 +19,7 @@ def sort_visible_friendlies_by_distance(robot):
 
     friendly_bots = []
     friendly_bots_distance = []
-    if visible is None:
+    if visible == None:
         return []
     for r in visible:
         if not robot.is_visible(r):
@@ -36,7 +36,7 @@ def sort_visible_enemies_by_distance(robot):
 
     enemy_bots = []
     enemy_bots_distance = []
-    if visible is None:
+    if visible == None:
         return []
     for r in visible:
         if not robot.is_visible(r):
@@ -47,4 +47,3 @@ def sort_visible_enemies_by_distance(robot):
             enemy_bots.append(r)
 
     return [x for _,x in sorted(zip(enemy_bots_distance, enemy_bots))]
-
