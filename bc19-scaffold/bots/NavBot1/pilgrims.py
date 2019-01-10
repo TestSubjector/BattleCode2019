@@ -4,6 +4,8 @@ import pathfinding
 from battlecode import SPECS
 
 def pilgrim(robot):
+    if robot.me.signal == 0:
+        None
     carry_karb = robot.me.karbonite
     carry_fuel = robot.me.fuel
     pos_x = robot.me.x
