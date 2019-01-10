@@ -1,5 +1,6 @@
 import utility
 import vision
+import pathfinding
 from battlecode import SPECS
 
 def pilgrim(robot):
@@ -21,6 +22,12 @@ def pilgrim(robot):
         if bc !=0:
             return bc
 
+def move_to_nearest_mine(robot):
+    nearest_mine_list = utility.get_relative_karbonite_mine_positions(robot)
+    # robot.log(str(nearest_mine_list[0]))
+    tile_to_move_to = pathfinding.astar_search(robot, (robot.me.x, robot.me.y), nearest_mine_list[0])
+    return tile_to_move_to[0]
+
 def pilgrim_move(robot):
     if robot.fuel <= 2 :
         return 0
@@ -33,10 +40,17 @@ def pilgrim_move(robot):
     occupied_map = robot.get_visible_robot_map()
     directions = utility.cells_around()
     # May change for impossible resources
+    
     for direction in directions:
         if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and (karb_map[pos_y + direction[0]][pos_x + direction[1]] == 1 or fuel_map[pos_y + direction[0]][pos_x + direction[1]] == 1):
             return robot.move(direction[1], direction[0])
     # Just move
+    # move_to = move_to_nearest_mine(robot)
+    # if move_to != None:
+    #     robot.log("check")
+    #     new_pos_x, new_pos_y = move_to
+    #     return robot.move(new_pos_x - pos_x, new_pos_y - pos_y)
+    
     for direction in directions:
         if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and passable_map[pos_y + direction[0]][pos_x + direction[1]] == 1:
             return robot.move(direction[1], direction[0])

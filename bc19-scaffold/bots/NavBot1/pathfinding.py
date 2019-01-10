@@ -94,7 +94,7 @@ def retrace_path(pos_initial, pos_final, came_from):
     while current != pos_initial: 
        path.append(current)
        current = came_from[current]
-    path.append(pos_initial) 
+    # path.append(pos_initial) 
     path.reverse()
     return path
 
@@ -102,7 +102,10 @@ def astar_search(robot, pos_initial, pos_final):
 
     nodes = [None]
     insert_counter = 0
-    
+    block_kicker = 0
+    robot.log(pos_initial)
+    robot.log(pos_final)
+
     passable_map = robot.get_passable_map()
     if utility.is_out_of_bounds(len(passable_map), pos_final[0], pos_final[1]) or not passable_map[pos_final[1]][pos_final[0]]:
         return ()
@@ -130,8 +133,11 @@ def astar_search(robot, pos_initial, pos_final):
                     # robot.log(str(priority))
                     insert_counter =  add(nodes, iter_a, -priority, insert_counter)
                     came_from[iter_a] = current
+        block_kicker += 1
+        if(block_kicker > 30):
+            return ()
     # robot.log(str(pos_initial))
     # robot.log(str(pos_final))
     # robot.log(came_from)
 
-    retrace_path(pos_initial, pos_final, came_from)
+    return retrace_path(pos_initial, pos_final, came_from)

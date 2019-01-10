@@ -3,7 +3,6 @@ import battlecode as bc
 import pathfinding
 
 from castles import *
-from churches import *
 from crusaders import *
 from pilgrims import *
 
@@ -29,7 +28,7 @@ class MyRobot(BCAbstractRobot):
 
     def turn(self):
         self.step += 1
-
+        
         unit_type = self.me['unit']
         unit_castle = SPECS['CASTLE']
         unit_church = SPECS['CHURCH']
@@ -50,11 +49,8 @@ class MyRobot(BCAbstractRobot):
 
         if unit_type == unit_crusader:
             return self.move(crusaders_move(self))
-
-        if unit_type == unit_castle:
+        elif unit_type == unit_castle:
             return castle(self)
-        elif unit_type == unit_church:
-            return church(self)
         elif unit_type == unit_pilgrim:
             return pilgrim(self)
 
