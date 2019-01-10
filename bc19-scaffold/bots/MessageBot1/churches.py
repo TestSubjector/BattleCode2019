@@ -3,19 +3,17 @@ from battlecode import SPECS
 
 # Add code for locked castles
 
-def castle(robot):
-    if robot.step % 10 == 0:
-        robot.log("Script Helper Turn@" + str(robot.step))
+def church(robot):
     if robot.step < 2:
         # self.log("Building a crusader at " + str(self.me['x']+1) + ", " + str(self.me['y']+1))
-        return castle_build(robot, SPECS['PILGRIM'])
+        return church_build(robot, SPECS['PILGRIM'])
     # elif robot.step > 500 and robot.karbonite > 100 and robot.fuel > 200:
     #     return castle_build(robot, SPECS['PILGRIM'])
     else:
         None
         # self.log("Castle health: " + self.me['health'])
 
-def castle_build(robot, unit_type):
+def church_build(robot, unit_type):
     pos_x = robot.me.x
     pos_y = robot.me.y
     occupied_map = robot.get_visible_robot_map()

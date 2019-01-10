@@ -1,6 +1,5 @@
 from battlecode import BCAbstractRobot, SPECS
 import battlecode as bc
-import random
 
 from castle import *
 from crusaders import *
@@ -13,6 +12,7 @@ __pragma__('tconv')
 # don't try to use global variables!!
 
 # Helper Function
+
 
 def go_home(self):
     unit_map = self.getVisibleRobotMap()
@@ -43,7 +43,8 @@ class MyRobot(BCAbstractRobot):
             self.log("Total current karbonite is " + str(self.karbonite))
 
         if unit_type == unit_crusader:
-            return crusader(self)
+            return self.move(crusaders_move(self))
+
         if unit_type == unit_castle:
             return castle(self)
         elif unit_type == unit_pilgrim:
