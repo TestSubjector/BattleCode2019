@@ -6,6 +6,8 @@ from battlecode import SPECS
 # Add code for locked castles
 
 def castle(robot):
+    if robot.step % 10 == 0:
+        robot.log("Script Helper Turn@" + str(robot.step))
     unit_castle = SPECS['CASTLE']
     unit_church = SPECS['CHURCH']
     unit_crusader = SPECS['CRUSADER']

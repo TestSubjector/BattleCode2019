@@ -4,6 +4,8 @@ from battlecode import SPECS
 # Add code for locked castles
 
 def castle(robot):
+    if robot.step % 10 == 0:
+        robot.log("Script Helper Turn@" + str(robot.step))
     if robot.step < 2:
         # self.log("Building a crusader at " + str(self.me['x']+1) + ", " + str(self.me['y']+1))
         return castle_build(robot, SPECS['PILGRIM'])
