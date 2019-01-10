@@ -1,4 +1,5 @@
 import utility
+import communications
 from battlecode import SPECS
 
 # Add code for locked castles
@@ -7,14 +8,20 @@ def castle(robot):
     friendly_units = all_friendly_units(robot)
 
     robot.log(str([unit.id for unit in vision.sort_visible_friendlies_by_distance(robot)]))
+
+    # If nothing else, replicate your own last message
+    communications.self_communicate_loop(robot)
+
     if robot.step < 2:
         # self.log("Building a crusader at " + str(self.me['x']+1) + ", " + str(self.me['y']+1))
+        robot.signal(robot.me.signal + 1, 0)
         return castle_build(robot, SPECS['PILGRIM'])
-    # elif robot.step > 500 and robot.karbonite > 100 and robot.fuel > 200:
-    #     return castle_build(robot, SPECS['PILGRIM'])
+    elif robot.step > 500 and robot.karbonite > 100 and robot.fuel > 200:
+        return castle_build(robot, SPECS['PILGRIM'])
     else:
         None
         # self.log("Castle health: " + self.me['health'])
+    robot.log(str(robot.me.signal))
 
 def castle_build(robot, unit_type):
     pos_x = robot.me.x

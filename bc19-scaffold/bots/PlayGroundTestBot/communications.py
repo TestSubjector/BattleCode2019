@@ -9,5 +9,3 @@ def message_to_castles(robot, mesg_type):
     #     temp_store = ((robot.me.x * 1000) + robot.me.y) * 1000 + 1
     #     robot.castleTalk(temp_store)
 
-def self_communicate_loop(robot):
-    robot.signal(robot.me.signal, 0)
