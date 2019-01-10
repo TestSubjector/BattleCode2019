@@ -47,3 +47,17 @@ def sort_visible_enemies_by_distance(robot):
             enemy_bots.append(r)
 
     return [x for _,x in sorted(zip(enemy_bots_distance, enemy_bots))]
+
+def all_karbonite(robot):
+    karb_count = 0
+    for row in robot.karbonite_map:
+        for cell in row:
+            if cell == True:
+                karb_count+=1
+
+def all_fuel(robot):
+    fuel_count = 0
+    for row in robot.fuel_map:
+        for cell in row:
+            if cell == True:
+                fuel_count+=1
