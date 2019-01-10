@@ -5,6 +5,7 @@ from battlecode import SPECS
 
 def castle(robot):
 
+    
     robot.log(str(robot.me.signal))
     # if robot.step < 2:
     #     # self.log("Building a crusader at " + str(self.me['x']+1) + ", " + str(self.me['y']+1))
