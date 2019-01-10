@@ -27,7 +27,7 @@ class MyRobot(BCAbstractRobot):
 
     def turn(self):
         self.step += 1
-        
+
         unit_type = self.me['unit']
         unit_castle = SPECS['CASTLE']
         unit_church = SPECS['CHURCH']
@@ -40,7 +40,6 @@ class MyRobot(BCAbstractRobot):
         # self.log("START TURN " + self.step)
 
         if self.step % 250 == 0:
-            # robot.log(str(self.me))
             self.log("Total current karbonite is " + str(self.karbonite))
 
         if unit_type == unit_crusader:

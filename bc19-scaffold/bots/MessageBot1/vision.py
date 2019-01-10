@@ -3,10 +3,10 @@ def sort_visible_units_by_distance(robot):
 
     bots = []
     bots_distance = []
-    if visible is None:
+    if visible == None:
         return []
     for r in visible:
-        if 'x' not in r:
+        if not robot.is_visible(r):
             continue
         # now all in vision range, can see x, y etc
         bots_distance.append((r['x'] - robot.me['x'])**2 + (r['y'] - robot.me['y'])**2)
@@ -19,10 +19,10 @@ def sort_visible_friendlies_by_distance(robot):
 
     friendly_bots = []
     friendly_bots_distance = []
-    if visible is None:
+    if visible == None:
         return []
     for r in visible:
-        if 'x' not in r:
+        if not robot.is_visible(r):
             continue
         # now all in vision range, can see x, y etc
         if r['team'] == robot.me['team']:
@@ -36,10 +36,10 @@ def sort_visible_enemies_by_distance(robot):
 
     enemy_bots = []
     enemy_bots_distance = []
-    if visible is None:
+    if visible == None:
         return []
     for r in visible:
-        if 'x' not in r:
+        if not robot.is_visible(r):
             continue
         # now all in vision range, can see x, y etc
         if r['team'] != robot.me['team']:
@@ -47,4 +47,3 @@ def sort_visible_enemies_by_distance(robot):
             enemy_bots.append(r)
 
     return [x for _,x in sorted(zip(enemy_bots_distance, enemy_bots))]
-

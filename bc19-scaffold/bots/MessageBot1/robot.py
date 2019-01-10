@@ -1,8 +1,8 @@
 from battlecode import BCAbstractRobot, SPECS
 import battlecode as bc
-import random
+import pathfinding
 
-from castle import *
+from castles import *
 from crusaders import *
 from pilgrims import *
 
@@ -39,12 +39,16 @@ class MyRobot(BCAbstractRobot):
         # DEBUG
         # self.log("START TURN " + self.step)
 
-        if self.step % 250 == 0:
-            self.log("Total current karbonite is " + str(self.karbonite))
+        # self.log("Running pathfinding")
+        pathfinding.astar_search(robot, (robot.me.x, robot.me.y), (robot.me.x - 4, robot.me.y - 4))
+
+        if self.step % 50 == 0:
+            # robot.log(str(self.me))
+            self.log("Total current karbonite is " + str(self.karbonite) + " turn " + (str(self.step)))
 
         if unit_type == unit_crusader:
-            return crusader(self)
-        if unit_type == unit_castle:
+            return self.move(crusaders_move(self))
+        elif unit_type == unit_castle:
             return castle(self)
         elif unit_type == unit_pilgrim:
             return pilgrim(self)

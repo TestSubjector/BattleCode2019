@@ -8,7 +8,7 @@ def pilgrim(robot):
     pos_x = robot.me.x
     pos_y = robot.me.y
 
-    if carry_fuel > 80 or carry_karb > 18 :
+    if carry_fuel > 50 or carry_karb > 16 :
         # robot.log("Nearing capacity")
         return pilgrim_full(robot)
 
@@ -67,7 +67,7 @@ def pilgrim_full(robot):
     fuel_map = robot.get_fuel_map()
     passable_map = robot.get_passable_map()
     occupied_map = robot.get_visible_robot_map()
-    directions = [(-1, -1), (1, 1)]
+    directions = utility.cells_around()
 
     if karb_map[pos_y][pos_x] == 1 or fuel_map[pos_y][pos_x] == 1:
         friendly_units = vision.sort_visible_friendlies_by_distance(robot)
@@ -75,16 +75,14 @@ def pilgrim_full(robot):
             for f_unit in friendly_units:
                 dx = f_unit.x - pos_x
                 dy = f_unit.y - pos_y
-                if f_unit.unit == unit_church: 
-                    # robot.log(str((dx, dy)))
-                    if (dy, dx in directions) and abs(dx) <= 1 and abs(dy) <= 1 and (robot.get_visible_robot_map()[pos_y + dy][pos_x + dx] > 0):
-                        # robot.log("Giving church " + str(f_unit.id) + " " + str(carry_karb) + " karbonite and " + str(carry_fuel) + " fuel.")
-                        # robot.log(str(f_unit))
-                        # robot.log(str(robot.me))
-                        # robot.log(str((dx, dy)))
-                        # if utility.is_cell_occupied(occupied_map, pos_x + f_unit.x - pos_x, pos_y + f_unit.y - pos_y):
-                        #     robot.log("Exists")
-                        return robot.give(dx, dy, carry_karb, carry_fuel)
+                if f_unit.unit == unit_church and abs(dx) <= 1 and abs(dy) <= 1 and utility.is_cell_occupied(occupied_map, f_unit.x, f_unit.y):
+                    robot.log("Giving church " + str(f_unit.id) + " " + str(carry_karb) + " karbonite and " + str(carry_fuel) + " fuel.")
+                    robot.log(str(f_unit))
+                    robot.log(str(robot.me))
+                    robot.log(str((dx, dy)))
+                    # if utility.is_cell_occupied(occupied_map, pos_x + f_unit.x - pos_x, pos_y + f_unit.y - pos_y):
+                    #     robot.log("Exists")
+                    return robot.give(dx, dy, carry_karb, carry_fuel)
         
         for direction in directions:
             if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and (karb_map[pos_y + direction[0]][pos_x + direction[1]] != 1 or fuel_map[pos_y + direction[0]][pos_x + direction[1]] != 1) and passable_map[pos_y + direction[0]][pos_x + direction[1]] == 1:
