@@ -74,9 +74,8 @@ def astar_heuristic(pos_initial, pos_final):
     dy = abs(y1 - y2)
     return (dx + dy) - (math.sqrt(2) - 2) * min(dx, dy)
 
-def neighbours(robot, pos_intermediate):
+def neighbours(robot, pos_intermediate, passable_map, occupied_map):
     pos_x, pos_y = pos_intermediate
-    passable_map = robot.get_passable_map()
 
     dirs = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
     result = []
@@ -84,7 +83,7 @@ def neighbours(robot, pos_intermediate):
     for dirc in dirs:
         new_pos_x = pos_x + dirc[1]
         new_pos_y = pos_y + dirc[0]
-        if not utility.is_out_of_bounds(len(passable_map), new_pos_x, new_pos_y) and passable_map[new_pos_y][new_pos_x]:
+        if not utility.is_cell_occupied(occupied_map, new_pos_x, new_pos_y) and passable_map[new_pos_y][new_pos_x]:
             result.append((new_pos_x , new_pos_y))
     return result
 
@@ -105,7 +104,7 @@ def astar_search(robot, pos_initial, pos_final):
     block_kicker = 0
     # robot.log(pos_initial)
     # robot.log(pos_final)
-
+    occupied_map = robot.get_visible_robot_map()
     passable_map = robot.get_passable_map()
     if utility.is_out_of_bounds(len(passable_map), pos_final[0], pos_final[1]) or not passable_map[pos_final[1]][pos_final[0]]:
         return ()
@@ -124,7 +123,7 @@ def astar_search(robot, pos_initial, pos_final):
         if str(current) == str(pos_final):
             break
         
-        for iter_a in neighbours(robot, current):
+        for iter_a in neighbours(robot, current, passable_map, occupied_map):
             if iter_a:
                 new_cost = cost_so_far[current] + 1
                 if iter_a not in cost_so_far or new_cost < cost_so_far[iter_a]:

@@ -51,3 +51,20 @@ def get_relative_fuel_mine_positions(robot):
                 
     return [x for _,x in sorted(zip(distance, queue))]
 
+def get_relative_mine_positions(robot):
+    pos_x = robot.me.x
+    pos_y = robot.me.y
+    fuel_map = robot.get_fuel_map()
+    karb_map = robot.get_karbonite_map()
+
+    map_length = len(fuel_map)
+    queue = []
+    distance = []
+
+    for iter_i in range(map_length):
+        for iter_j in range(map_length):
+            if fuel_map[iter_i][iter_j] or karb_map[iter_i][iter_j]:
+                distance.append((iter_j - pos_x)**2 + (iter_i - pos_y)**2)
+                queue.append((iter_j, iter_i))
+                
+    return [x for _,x in sorted(zip(distance, queue))]

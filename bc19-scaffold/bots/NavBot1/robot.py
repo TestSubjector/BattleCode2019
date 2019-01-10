@@ -42,7 +42,7 @@ class MyRobot(BCAbstractRobot):
         # self.log("Running pathfinding")
         pathfinding.astar_search(robot, (robot.me.x, robot.me.y), (robot.me.x - 4, robot.me.y - 4))
 
-        if self.step % 50 == 0:
+        if self.step % 200 == 3 and unit_type == unit_castle:
             # robot.log(str(self.me))
             self.log("Total current karbonite is " + str(self.karbonite) + " turn " + (str(self.step)))
 
