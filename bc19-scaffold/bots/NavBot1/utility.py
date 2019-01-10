@@ -1,8 +1,11 @@
 from random import shuffle, random
 
+def is_out_of_bounds(map_dim, pos_x, pos_y):
+    return pos_x < 0 or pos_y < 0 or pos_x >= map_dim or pos_y >= map_dim
+
 def is_cell_occupied(occupied_map, pos_x, pos_y):
     bounds_map = len(occupied_map)
-    if pos_x < 0 or pos_y < 0 or pos_x >= bounds_map or pos_y >= bounds_map:
+    if is_out_of_bounds(bounds_map, pos_x, pos_y):
         return True
     elif occupied_map[pos_y][pos_x] <= 0:
         return False

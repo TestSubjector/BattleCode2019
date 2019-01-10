@@ -1,4 +1,5 @@
 import math
+import utility
 
 # Since no collection
 def _is_higher_than(a, b):
@@ -71,7 +72,7 @@ def astar_heuristic(pos_initial, pos_final):
     (x2, y2) = pos_final
     dx = abs(x1 - x2) 
     dy = abs(y1 - y2)
-    return (dx + dy) - min(dx, dy)
+    return (dx + dy) - (math.sqrt(2) - 2) * min(dx, dy)
 
 def neighbours(robot, pos_intermediate):
     pos_x, pos_y = pos_intermediate
@@ -83,9 +84,19 @@ def neighbours(robot, pos_intermediate):
     for dirc in dirs:
         new_pos_x = pos_x + dirc[1]
         new_pos_y = pos_y + dirc[0]
-        if not (new_pos_x < 0 or new_pos_y < 0 or new_pos_x >= len(passable_map) or new_pos_y >= len(passable_map)) and passable_map[new_pos_y][new_pos_x]:
+        if not utility.is_out_of_bounds(len(passable_map), new_pos_x, new_pos_y) and passable_map[new_pos_y][new_pos_x]:
             result.append((new_pos_x , new_pos_y))
     return result
+
+def retrace_path(pos_initial, pos_final, came_from):
+    current = pos_final 
+    path = []
+    while current != pos_initial: 
+       path.append(current)
+       current = came_from[current]
+    path.append(pos_initial) 
+    path.reverse()
+    return path
 
 def astar_search(robot, pos_initial, pos_final):
 
@@ -93,8 +104,8 @@ def astar_search(robot, pos_initial, pos_final):
     insert_counter = 0
     
     passable_map = robot.get_passable_map()
-    if not passable_map[pos_final[1]][pos_final[0]]:
-        return
+    if utility.is_out_of_bounds(len(passable_map), pos_final[0], pos_final[1]) or not passable_map[pos_final[1]][pos_final[0]]:
+        return ()
 
     insert_counter = add(nodes, pos_initial, 0, insert_counter)
 
@@ -111,12 +122,16 @@ def astar_search(robot, pos_initial, pos_final):
             break
         
         for iter_a in neighbours(robot, current):
-            new_cost = cost_so_far[current] + 1
-            if iter_a not in cost_so_far or new_cost < cost_so_far[iter_a]:
-                cost_so_far[iter_a] = new_cost
-                priority = new_cost + astar_heuristic(pos_final, iter_a)
-                # robot.log(str(priority))
-                insert_counter =  add(nodes, iter_a, -priority, insert_counter)
-                came_from[iter_a] = current
-    
-    # robot.log(str(came_from) + " " + str(cost_so_far))
+            if iter_a:
+                new_cost = cost_so_far[current] + 1
+                if iter_a not in cost_so_far or new_cost < cost_so_far[iter_a]:
+                    cost_so_far[iter_a] = new_cost
+                    priority = new_cost + astar_heuristic(pos_final, iter_a)
+                    # robot.log(str(priority))
+                    insert_counter =  add(nodes, iter_a, -priority, insert_counter)
+                    came_from[iter_a] = current
+    # robot.log(str(pos_initial))
+    # robot.log(str(pos_final))
+    # robot.log(came_from)
+
+    retrace_path(pos_initial, pos_final, came_from)

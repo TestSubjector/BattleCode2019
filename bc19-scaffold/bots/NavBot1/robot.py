@@ -40,13 +40,12 @@ class MyRobot(BCAbstractRobot):
         # DEBUG
         # self.log("START TURN " + self.step)
 
-        if self.step % 750 == 1:
-            self.log("Running pathfinding")
-            pathfinding.astar_search(robot, (robot.me.x, robot.me.y), (robot.me.x - 4, robot.me.y - 4))
+        # self.log("Running pathfinding")
+        pathfinding.astar_search(robot, (robot.me.x, robot.me.y), (robot.me.x - 4, robot.me.y - 4))
 
-        if self.step % 250 == 0:
+        if self.step % 50 == 0:
             # robot.log(str(self.me))
-            self.log("Total current karbonite is " + str(self.karbonite))
+            self.log("Total current karbonite is " + str(self.karbonite) + " turn " + (str(self.step)))
 
         if unit_type == unit_crusader:
             return self.move(crusaders_move(self))
