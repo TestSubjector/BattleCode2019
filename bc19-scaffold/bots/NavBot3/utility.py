@@ -51,6 +51,8 @@ def get_relative_fuel_mine_positions(robot):
 
     return [x for _,x in sorted(zip(distance, queue))]
 
+
+
 def get_relative_mine_positions(robot):
     pos_x = robot.me.x
     pos_y = robot.me.y
@@ -67,7 +69,22 @@ def get_relative_mine_positions(robot):
                 distance.append((iter_j - pos_x)**2 + (iter_i - pos_y)**2)
                 queue.append((iter_j, iter_i))
 
-    return [x for _,x in sorted(zip(distance, queue))]
+    store1, store2 = insertionSort(distance, queue)
+    return store2
+
+def insertionSort(alist, main_list):
+    # Quick hack to guard against the conversion of elements into string while sorting
+    for index in range(1, len(alist)):
+        currentvalue = alist[index]
+        currentvalue_ml = main_list[index]
+        position = index
+        while position > 0 and alist[position - 1] > currentvalue:
+            alist[position] = alist[position-1]
+            main_list[position] = main_list[position-1]
+            position = position -1 
+        alist[position] = currentvalue
+        main_list[position] = currentvalue_ml
+    return alist, main_list
 
 def convert_to_binary(decimal_number):
     binary_num = 0
