@@ -76,8 +76,10 @@ def castle_build(robot, unit_type):
     occupied_map = robot.get_visible_robot_map()
     passable_map = robot.get_passable_map()
     directions = utility.cells_around()
+
     for direction in directions:
         if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and passable_map[pos_y + direction[0]][pos_x + direction[1]] == 1:
+            robot.log("Building unit of type " + str(unit_type) + " at " + str(direction))
             return robot.build_unit(unit_type, direction[1], direction[0])
 
 def castle_all_friendly_units(robot):

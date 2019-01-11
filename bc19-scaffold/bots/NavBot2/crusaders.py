@@ -1,9 +1,13 @@
 import utility
 
 def crusader(robot):
-    crusader_move(robot)
+    return crusader_move(robot)
 
 def crusader_move(robot):
+    pos_x = robot.me.x
+    pos_y = robot.me.y
+    passable_map = robot.get_passable_map()
+    occupied_map = robot.get_visible_robot_map()
     directions = utility.cells_around()
 
     for direction in directions:
