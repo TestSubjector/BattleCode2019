@@ -50,8 +50,8 @@ class MyRobot(BCAbstractRobot):
 
         if unit_type == unit_castle:
             return castles.castle(self)
-        elif unit_type == unit_church:
-            return churches.church(self)
+        # elif unit_type == unit_church:
+        #     return churches.church(self)
         elif unit_type == unit_crusader:
             return crusaders.crusader(self)
         elif unit_type == unit_preacher:
