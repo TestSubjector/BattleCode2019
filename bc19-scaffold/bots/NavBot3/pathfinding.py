@@ -1,4 +1,5 @@
 import math
+from itertools import islice, repeat, count, tee, chain
 import utility
 
 # Since no collection
@@ -8,72 +9,71 @@ def _is_higher_than(a, b):
     return b[1] < a[1] or (a[1] == b[1] and a[2] < b[2])
 
 # Move a node up until the parent is bigger
-def _heapify(nodes, new_node_index):
-    while 1 < new_node_index:
-        new_node = nodes[new_node_index]
-        parent_index = new_node_index / 2
-        parent_node = nodes[parent_index]
-        # Parent too big?
-        if _is_higher_than(parent_node, new_node):
-            break
-        # Swap with parent
-        tmp_node = parent_node
-        nodes[parent_index] = new_node
-        nodes[new_node_index] = tmp_node
-        # Continue further up
-        new_node_index = parent_index
-    return nodes
 
-# Add a new node with a given priority
-def add(nodes, value, priority, insert_counter):
-    new_node_index = len(nodes)
-    insert_counter += 1
-    nodes.append((value, priority, insert_counter))
-    # Move the new node up in the hierarchy
-    _heapify(nodes, new_node_index)
-    return insert_counter
+def heappush(heap, item):
+    """Push item onto heap, maintaining the heap invariant."""
+    heap.append(item)
+    _siftdown(heap, 0, len(heap)-1)
 
-# Return the top element
-def peek(nodes):
-    if len(nodes) == 1:
-        return None
+def heappop(heap):
+    """Pop the smallest item off the heap, maintaining the heap invariant."""
+    lastelt = heap.pop()    # raises appropriate IndexError if heap is empty
+    if heap:
+        returnitem = heap[0]
+        heap[0] = lastelt
+        _siftup(heap, 0)
     else:
-        return nodes[1][0]
+        returnitem = lastelt
+    return returnitem
 
-# Remove the top element and return it
-def pop(nodes):
-    if len(nodes) == 1:
-        raise LookupError("Heap is empty")
-    result = nodes[1][0]
-    # Move empty space down
-    empty_space_index = 1
-    while empty_space_index * 2 < len(nodes):
-        left_child_index = empty_space_index * 2
-        right_child_index = empty_space_index * 2 + 1
-        # Left child wins
-        if (len(nodes) <= right_child_index or _is_higher_than(nodes[left_child_index], nodes[right_child_index])):
-            nodes[empty_space_index] = nodes[left_child_index]
-            empty_space_index = left_child_index
-        # Right child wins
-        else:
-            nodes[empty_space_index] = nodes[right_child_index]
-            empty_space_index = right_child_index
-    # Swap empty space with the last element and heapify
-    last_node_index = len(nodes) - 1
-    nodes[empty_space_index] = nodes[last_node_index]
-    _heapify(nodes, empty_space_index)
-    # Throw out the last element
-    nodes.pop()
-    return result
+def heappushpop(heap, item):
+    """Fast version of a heappush followed by a heappop."""
+    if heap and heap[0] < item:
+        item, heap[0] = heap[0], item
+        _siftup(heap, 0)
+    return item
 
-# Will be really important later
-def astar_heuristic(pos_initial, pos_final):
-    (x1, y1) = pos_initial
-    (x2, y2) = pos_final
-    dx = abs(x1 - x2) 
-    dy = abs(y1 - y2)
-    heuristic = (dx + dy) - min(dx, dy)
-    return heuristic
+def heapify(x):
+    """Transform list into a heap, in-place, in O(len(heap)) time."""
+    n = len(x)
+    for i in reversed(xrange(n//2)):
+        _siftup(x, i)
+
+def _siftdown(heap, startpos, pos):
+    newitem = heap[pos]
+    # Follow the path to the root, moving parents down until finding a place
+    # newitem fits.
+    while pos > startpos:
+        parentpos = (pos - 1) >> 1
+        parent = heap[parentpos]
+        if newitem < parent:
+            heap[pos] = parent
+            pos = parentpos
+            continue
+        break
+    heap[pos] = newitem
+
+def _siftup(heap, pos):
+    endpos = len(heap)
+    startpos = pos
+    newitem = heap[pos]
+    # Bubble up the smaller child until hitting a leaf.
+    childpos = 2*pos + 1    # leftmost child position
+    while childpos < endpos:
+        # Set childpos to index of smaller child.
+        rightpos = childpos + 1
+        if rightpos < endpos and not heap[childpos] < heap[rightpos]:
+            childpos = rightpos
+        # Move the smaller child up.
+        heap[pos] = heap[childpos]
+        pos = childpos
+        childpos = 2*pos + 1
+    # The leaf at pos is empty now.  Put newitem there, and bubble it up
+    # to its final resting place (by sifting its parents down).
+    heap[pos] = newitem
+    _siftdown(heap, startpos, pos)
+
+
 
 def astar_search(robot, pos_initial, pos_final):
     robot.log(robot.me.time)
@@ -113,14 +113,85 @@ def astar_search(robot, pos_initial, pos_final):
                 result.append((new_pos_x , new_pos_y))
         return result
 
+    def _heapify(nodes, new_node_index):
+        while 1 < new_node_index:
+            new_node = nodes[new_node_index]
+            parent_index = new_node_index / 2
+            parent_node = nodes[parent_index]
+            # Parent too big?
+            if _is_higher_than(parent_node, new_node):
+                break
+            # Swap with parent
+            tmp_node = parent_node
+            nodes[parent_index] = new_node
+            nodes[new_node_index] = tmp_node
+            # Continue further up
+            new_node_index = parent_index
+        return nodes
+
+    # Add a new node with a given priority
+    def add(nodes, value, priority, insert_counter):
+        new_node_index = len(nodes)
+        insert_counter += 1
+        nodes.append((value, priority, insert_counter))
+        # Move the new node up in the hierarchy
+        _heapify(nodes, new_node_index)
+        return insert_counter
+
+    # Return the top element
+    def peek(nodes):
+        if len(nodes) == 1:
+            return None
+        else:
+            return nodes[1][0]
+
+    # Remove the top element and return it
+    def pop(nodes):
+        if len(nodes) == 1:
+            raise LookupError("Heap is empty")
+        result = nodes[1][0]
+        # Move empty space down
+        empty_space_index = 1
+        while empty_space_index * 2 < len(nodes):
+            left_child_index = empty_space_index * 2
+            right_child_index = empty_space_index * 2 + 1
+            # Left child wins
+            if (len(nodes) <= right_child_index or _is_higher_than(nodes[left_child_index], nodes[right_child_index])):
+                nodes[empty_space_index] = nodes[left_child_index]
+                empty_space_index = left_child_index
+            # Right child wins
+            else:
+                nodes[empty_space_index] = nodes[right_child_index]
+                empty_space_index = right_child_index
+        # Swap empty space with the last element and heapify
+        last_node_index = len(nodes) - 1
+        nodes[empty_space_index] = nodes[last_node_index]
+        _heapify(nodes, empty_space_index)
+        # Throw out the last element
+        nodes.pop()
+        return result
+
+    # Will be really important later
+    def astar_heuristic(pos_intermediate, pos_final):
+        (x1, y1) = pos_intermediate
+        (x2, y2) = pos_final
+        dx = abs(x1 - x2) 
+        dy = abs(y1 - y2)
+        heuristic = (dx + dy) - min(dx, dy)
+        return heuristic * (1.001)
+
     insert_counter = add(nodes, pos_initial, 0, insert_counter)
 
     while len(nodes) > 1:
         current = pop(nodes)
 
-        if robot.me.time < 50:
+        if robot.me.time < 70:
+            return retrace_path(pos_initial, current, came_from)
+        elif robot.me.time < 50:
+            robot.log("=> + " + str(len(nodes)))
             return ()
-        elif str(current) == str(pos_final) or block_kicker > 50:
+        elif str(current) == str(pos_final) or block_kicker > 100:
+            robot.log("=> * " + str(len(nodes)))
             return retrace_path(pos_initial, current, came_from)
 
         for iter_a in neighbours(current):
@@ -134,7 +205,6 @@ def astar_search(robot, pos_initial, pos_final):
                     came_from[iter_a] = current
         block_kicker += 1
         
-
     # robot.log(came_from)
 
     return retrace_path(pos_initial, pos_final, came_from)
