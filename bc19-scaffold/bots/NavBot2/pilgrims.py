@@ -6,20 +6,20 @@ from battlecode import SPECS
 
 def pilgrim(robot):
     communications.self_communicate_loop(robot)
-    unit_signal = robot.me.signal
 
-    if unit_signal == 0:
+    if robot.me.signal == 0:
         for friendly_unit in vision.sort_visible_friendlies_by_distance(robot):
             if friendly_unit.unit == 0 and friendly_unit.signal > -1:
-                unit_signal = friendly_unit.signal
+                robot.signal(friendly_unit.signal, 0)
                 break
+
+    unit_signal = robot.me.signal
 
     carry_karb = robot.me.karbonite
     carry_fuel = robot.me.fuel
     pos_x = robot.me.x
     pos_y = robot.me.y
 
-    communications.self_communicate_loop(robot)
     if carry_fuel > 80 or carry_karb > 18 :
         # robot.log("Nearing capacity")
         return pilgrim_full(robot)
@@ -29,22 +29,25 @@ def pilgrim(robot):
     if ab !=0:
         return ab
     else:
-        robot.signal(unit_signal, 2)
         bc = pilgrim_move(robot, unit_signal)
         if bc !=0:
             return bc
-
+    
 def move_to_specified_mine(robot, unit_signal):
     nearest_mine_list = utility.get_relative_mine_positions(robot)
-    # robot.log(str(nearest_mine_list[0]))
+    # robot.log(str(nearest_mine_list))
+    # robot.log(str(nearest_mine_list[unit_signal]))
     if unit_signal < len(nearest_mine_list):
         # robot.log(nearest_mine_list)
         # robot.log(nearest_mine_list[unit_signal])
         tile_to_move_to = pathfinding.astar_search(robot, (robot.me.x, robot.me.y), nearest_mine_list[unit_signal])
     else:
-        unit_signal = unit_signal % nearest_mine_list
+        unit_signal = unit_signal % len(nearest_mine_list)
         tile_to_move_to = pathfinding.astar_search(robot, (robot.me.x, robot.me.y), nearest_mine_list[unit_signal])
-    return tile_to_move_to[0]
+    if tile_to_move_to == None:
+        return None
+    else:
+        return tile_to_move_to[0]
 
 def pilgrim_move(robot, unit_signal):
     if robot.fuel <= 2 :

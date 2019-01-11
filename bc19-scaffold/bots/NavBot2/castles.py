@@ -6,8 +6,8 @@ from battlecode import SPECS
 # Add code for locked castles
 
 def castle(robot):
-    if robot.step % 10 == 0:
-        robot.log("Script Helper Turn@" + str(robot.step))
+    # if robot.step % 10 == 0:
+    #     robot.log("Script Helper Turn@" + str(robot.step))
     unit_castle = SPECS['CASTLE']
     unit_church = SPECS['CHURCH']
     unit_crusader = SPECS['CRUSADER']
@@ -40,7 +40,7 @@ def castle(robot):
             prophet_count+=1
 
     # robot.log(str([unit.id for unit in vision.sort_visible_friendlies_by_distance(robot)]))
-
+    # robot.log("=> " + str(robot.me.signal))
     # If nothing else, replicate your own last message
     communications.self_communicate_loop(robot)
 
@@ -55,6 +55,7 @@ def castle(robot):
     if robot.step < 2:
         robot.signal(robot.me.signal + 1, 2)
         return castle_build(robot, unit_pilgrim)
+<<<<<<< HEAD
     elif robot.karbonite > 100 and robot.fuel > 200:
         if crusader_count * 3 < pilgrim_count:
             # robot.signal(robot.me.signal + 1, 2)
@@ -68,6 +69,16 @@ def castle(robot):
         elif (total_fuel + total_karbonite) * .55 < pilgrim_count:
             robot.signal(robot.me.signal + 1, 2)
             return castle_build(robot, unit_pilgrim)
+=======
+    elif robot.step > 200 and robot.karbonite > 100 and robot.fuel > 200:
+        robot.signal(robot.me.signal + 1, 2)
+        return castle_build(robot, unit_pilgrim)
+    elif (total_fuel + total_karbonite) * .55 < pilgrim_count and robot.karbonite > 100 and robot.fuel > 200:
+        return castle_build(robot, unit_pilgrim)
+    else:
+        None
+        # self.log("Castle health: " + self.me['health'])
+>>>>>>> fee01a5262867882d5056760c7c56201b5a45647
     # robot.log(str(robot.me.signal))
 
 def castle_build(robot, unit_type):
