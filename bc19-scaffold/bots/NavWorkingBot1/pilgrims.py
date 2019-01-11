@@ -2,6 +2,7 @@ import utility
 import vision
 import communications
 import pathfinding
+import constants
 from battlecode import SPECS
 
 def pilgrim(robot):
@@ -44,7 +45,7 @@ def add_mine_position_to_signal(robot, unit_signal):
     # Do nothing
     if unit_signal == 0:
         return 0
-    # TODO - 
+    # TODO - Implement emergency measures
     elif unit_signal == 65536 - 1:
         # Find new mine to mine
         None
@@ -73,9 +74,13 @@ def pilgrim_move(robot, unit_signal):
     directions = utility.cells_around()
     # May change for impossible resources
     
-    for direction in directions:
-        if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and (karb_map[pos_y + direction[0]][pos_x + direction[1]] == 1 or fuel_map[pos_y + direction[0]][pos_x + direction[1]] == 1):
-            return robot.move(direction[1], direction[0])
+        
+    # Capture and start mining any resource if more than 50 turns since creation and no mine
+    # TODO - Improve this to spinnet to if mine in visible region and empty go to it
+    if robot.me.turn > constants.pilgrim_will_scavenge_closeby_mines:
+        for direction in directions:
+            if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and (karb_map[pos_y + direction[0]][pos_x + direction[1]] == 1 or fuel_map[pos_y + direction[0]][pos_x + direction[1]] == 1):
+                return robot.move(direction[1], direction[0])
     # Just move
     if unit_signal >= 6464: 
         move_to = move_to_specified_mine(robot, unit_signal)
@@ -84,6 +89,7 @@ def pilgrim_move(robot, unit_signal):
             new_pos_x, new_pos_y = move_to
             return robot.move(new_pos_x - pos_x, new_pos_y - pos_y)
     
+    # Random Movement when not enough time
     for direction in directions:
         if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and passable_map[pos_y + direction[0]][pos_x + direction[1]] == 1:
             return robot.move(direction[1], direction[0])

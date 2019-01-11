@@ -51,8 +51,6 @@ def get_relative_fuel_mine_positions(robot):
 
     return [x for _,x in sorted(zip(distance, queue))]
 
-
-
 def get_relative_mine_positions(robot):
     pos_x = robot.me.x
     pos_y = robot.me.y
