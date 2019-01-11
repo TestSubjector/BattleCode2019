@@ -72,71 +72,146 @@ def astar_heuristic(pos_initial, pos_final):
     (x2, y2) = pos_final
     dx = abs(x1 - x2) 
     dy = abs(y1 - y2)
-    return (dx + dy) - (math.sqrt(2) - 2) * min(dx, dy)
-
-def neighbours(robot, pos_intermediate, passable_map, occupied_map):
-    pos_x, pos_y = pos_intermediate
-
-    dirs = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
-    result = []
-
-    for dirc in dirs:
-        new_pos_x = pos_x + dirc[1]
-        new_pos_y = pos_y + dirc[0]
-        if not utility.is_cell_occupied(occupied_map, new_pos_x, new_pos_y) and passable_map[new_pos_y][new_pos_x]:
-            result.append((new_pos_x , new_pos_y))
-    return result
-
-def retrace_path(pos_initial, pos_final, came_from):
-    current = pos_final 
-    path = []
-    while current != pos_initial: 
-       path.append(current)
-       current = came_from[current]
-    # path.append(pos_initial) 
-    path.reverse()
-    return path
+    heuristic = (dx + dy) - min(dx, dy)
+    return heuristic * (5)
 
 def astar_search(robot, pos_initial, pos_final):
+    robot.log(robot.me.time)
+    dirs = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
 
     nodes = [None]
     insert_counter = 0
     block_kicker = 0
-    # robot.log(pos_initial)
-    # robot.log(pos_final)
-    occupied_map = robot.get_visible_robot_map()
-    passable_map = robot.get_passable_map()
-    if utility.is_out_of_bounds(len(passable_map), pos_final[0], pos_final[1]) or not passable_map[pos_final[1]][pos_final[0]]:
-        return ()
-
-    insert_counter = add(nodes, pos_initial, 0, insert_counter)
 
     came_from = {}
     cost_so_far = {}
     came_from[pos_initial] = None
     cost_so_far[pos_initial] = 0
+    occupied_map = robot.get_visible_robot_map()
+    passable_map = robot.get_passable_map()
 
+    if utility.is_out_of_bounds(occupied_map, pos_final[0], pos_final[1]) or not passable_map[pos_final[1]][pos_final[0]]:
+        return ()
+
+    def retrace_path(pos_initial, pos_final, came_from):
+        current = pos_final 
+        path = []
+        while current != pos_initial: 
+           path.append(current)
+           current = came_from[current]
+        # path.append(pos_initial) 
+        path.reverse()
+        return path
+
+    def neighbours(pos_intermediate):
+        pos_x, pos_y = pos_intermediate
+        result = []
+        for dirc in dirs:
+            new_pos_x = pos_x + dirc[1]
+            new_pos_y = pos_y + dirc[0]
+            if not utility.is_cell_occupied(occupied_map, new_pos_x, new_pos_y) and passable_map[new_pos_y][new_pos_x]:
+                result.append((new_pos_x , new_pos_y))
+        return result
+
+    insert_counter = add(nodes, pos_initial, 0, insert_counter)
 
     while len(nodes) > 1:
         current = pop(nodes)
 
-        if str(current) == str(pos_final):
-            break
-        
-        for iter_a in neighbours(robot, current, passable_map, occupied_map):
+        if str(current) == str(pos_final) or block_kicker > 40 or robot.me.time < 50:
+            return retrace_path(pos_initial, current, came_from)
+
+        for iter_a in neighbours(current):
             if iter_a:
                 new_cost = cost_so_far[current] + 1
                 if iter_a not in cost_so_far or new_cost < cost_so_far[iter_a]:
                     cost_so_far[iter_a] = new_cost
-                    priority = new_cost + astar_heuristic(pos_final, iter_a)
+                    priority = new_cost + astar_heuristic(iter_a, pos_final)
                     # robot.log(str(priority))
                     insert_counter =  add(nodes, iter_a, -priority, insert_counter)
                     came_from[iter_a] = current
         block_kicker += 1
-        if(block_kicker > 30):
-            return ()
-    # robot.log(str(pos_initial))
-    # robot.log(str(pos_final))
+        
+
     # robot.log(came_from)
 
     return retrace_path(pos_initial, pos_final, came_from)
+
+
+# def AStarSearch(robot, pos_initial, pos_final):
+
+#     dirs = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
+#     occupied_map = robot.get_visible_robot_map()
+#     passable_map = robot.get_passable_map()
+
+#     if utility.is_out_of_bounds(occupied_map, pos_final[0], pos_final[1]) or not passable_map[pos_final[1]][pos_final[0]]:
+#         return ()
+
+#     def neighbours(pos_intermediate):
+#         pos_x, pos_y = pos_intermediate
+#         result = []
+#         for dirc in dirs:
+#             new_pos_x = pos_x + dirc[1]
+#             new_pos_y = pos_y + dirc[0]
+#             if not utility.is_cell_occupied(occupied_map, new_pos_x, new_pos_y) and passable_map[new_pos_y][new_pos_x]:
+#                 result.append((new_pos_x , new_pos_y))
+#         return result
+
+#     G = {} #Actual movement cost to each position from the start position
+#     F = {} #Estimated movement cost of start to end going via this position
+
+#     #Initialize starting values
+#     G[pos_initial] = 0 
+#     F[pos_initial] = astar_heuristic(pos_initial, pos_final)
+#     closedVertices = set()
+#     openVertices = set([pos_initial])
+#     cameFrom = {}
+#     block_kicker = 0
+
+#     while len(openVertices) > 0:
+#         #Get the vertex in the open list with the lowest F score
+#         current = None
+#         currentFscore = None
+#         for pos in openVertices:
+#             if current is None or F[pos] < currentFscore:
+#                 currentFscore = F[pos]
+#                 current = pos
+#         #Check if we have reached the goal
+#         if str(current) == str(pos_final) or block_kicker > 3:
+#             #Retrace our route backward
+#             path = [current]
+#             while current in cameFrom:
+#             	current = cameFrom[current]
+#             	path.append(current)
+#             path.reverse()
+#             return path
+
+#         block_kicker += 1
+#         if block_kicker > 3:
+#             return ()
+# 	    #Mark the current vertex as closed
+#         openVertices.remove(current)
+#         closedVertices.add(current)
+
+#         #Update scores for vertices near the current position
+#         for neighbour in neighbours(current):
+#             if neighbour in closedVertices: 
+#                 continue #We have already processed this node exhaustively
+#             candidateG = G[current] + 1
+
+#             if neighbour not in openVertices:
+#                 openVertices.add(neighbour) #Discovered a new vertex
+#             elif candidateG >= G[neighbour]:
+#                 continue #This G score is worse than previously found
+
+#             #Adopt this G score
+#             cameFrom[neighbour] = current
+#             G[neighbour] = candidateG
+#             H = astar_heuristic(neighbour, pos_final)
+#             F[neighbour] = G[neighbour] + H
+#         robot.log(openVertices)
+#         robot.log(closedVertices)
+#         robot.log(G)
+#         robot.log(F)
+        
+

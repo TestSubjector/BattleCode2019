@@ -1,4 +1,4 @@
-// Transcrypt'ed from Python, 2019-01-10 07:51:33
+// Transcrypt'ed from Python, 2019-01-11 00:26:39
 var __name__ = 'org.transcrypt.__runtime__';
 
 function __nest__ (headObject, tailNames, value) {
@@ -1055,16 +1055,6 @@ function __mod__ (a, b) {
     else {
         return a + b;
     }
-}function __sub__ (a, b) {
-    if (typeof a == 'object' && '__sub__' in a) {
-        return a.__sub__ (b);
-    }
-    else if (typeof b == 'object' && '__rsub__' in b) {
-        return b.__rsub__ (a);
-    }
-    else {
-        return a - b;
-    }
 }function __eq__ (a, b) {
     if (typeof a == 'object' && '__eq__' in a) {
         return a.__eq__ (b);
@@ -1370,7 +1360,7 @@ var __terminal__ = __Terminal__ ();
 var print = __terminal__.print;
 var input = __terminal__.input;
 
-// Transcrypt'ed from Python, 2019-01-10 07:51:34
+// Transcrypt'ed from Python, 2019-01-11 00:26:39
 var __name__$1 = 'battlecode';
 var SPECS = dict ({'COMMUNICATION_BITS': 16, 'CASTLE_TALK_BITS': 8, 'MAX_ROUNDS': 1000, 'TRICKLE_FUEL': 25, 'INITIAL_KARBONITE': 100, 'INITIAL_FUEL': 500, 'MINE_FUEL_COST': 1, 'KARBONITE_YIELD': 2, 'FUEL_YIELD': 10, 'MAX_TRADE': 1024, 'MAX_BOARD_SIZE': 64, 'MAX_ID': 4096, 'CASTLE': 0, 'CHURCH': 1, 'PILGRIM': 2, 'CRUSADER': 3, 'PROPHET': 4, 'PREACHER': 5, 'RED': 0, 'BLUE': 1, 'CHESS_INITIAL': 100, 'CHESS_EXTRA': 20, 'TURN_MAX_TIME': 200, 'MAX_MEMORY': 50000000, 'UNITS': [dict ({'CONSTRUCTION_KARBONITE': null, 'CONSTRUCTION_FUEL': null, 'KARBONITE_CAPACITY': null, 'FUEL_CAPACITY': null, 'SPEED': 0, 'FUEL_PER_MOVE': null, 'STARTING_HP': 100, 'VISION_RADIUS': 100, 'ATTACK_DAMAGE': null, 'ATTACK_RADIUS': null, 'ATTACK_FUEL_COST': null, 'DAMAGE_SPREAD': null}), dict ({'CONSTRUCTION_KARBONITE': 50, 'CONSTRUCTION_FUEL': 200, 'KARBONITE_CAPACITY': null, 'FUEL_CAPACITY': null, 'SPEED': 0, 'FUEL_PER_MOVE': null, 'STARTING_HP': 50, 'VISION_RADIUS': 100, 'ATTACK_DAMAGE': null, 'ATTACK_RADIUS': null, 'ATTACK_FUEL_COST': null, 'DAMAGE_SPREAD': null}), dict ({'CONSTRUCTION_KARBONITE': 10, 'CONSTRUCTION_FUEL': 50, 'KARBONITE_CAPACITY': 20, 'FUEL_CAPACITY': 100, 'SPEED': 4, 'FUEL_PER_MOVE': 1, 'STARTING_HP': 10, 'VISION_RADIUS': 100, 'ATTACK_DAMAGE': null, 'ATTACK_RADIUS': null, 'ATTACK_FUEL_COST': null, 'DAMAGE_SPREAD': null}), dict ({'CONSTRUCTION_KARBONITE': 20, 'CONSTRUCTION_FUEL': 50, 'KARBONITE_CAPACITY': 20, 'FUEL_CAPACITY': 100, 'SPEED': 9, 'FUEL_PER_MOVE': 1, 'STARTING_HP': 40, 'VISION_RADIUS': 36, 'ATTACK_DAMAGE': 10, 'ATTACK_RADIUS': [1, 16], 'ATTACK_FUEL_COST': 10, 'DAMAGE_SPREAD': 0}), dict ({'CONSTRUCTION_KARBONITE': 25, 'CONSTRUCTION_FUEL': 50, 'KARBONITE_CAPACITY': 20, 'FUEL_CAPACITY': 100, 'SPEED': 4, 'FUEL_PER_MOVE': 2, 'STARTING_HP': 20, 'VISION_RADIUS': 64, 'ATTACK_DAMAGE': 10, 'ATTACK_RADIUS': [16, 64], 'ATTACK_FUEL_COST': 25, 'DAMAGE_SPREAD': 0}), dict ({'CONSTRUCTION_KARBONITE': 30, 'CONSTRUCTION_FUEL': 50, 'KARBONITE_CAPACITY': 20, 'FUEL_CAPACITY': 100, 'SPEED': 4, 'FUEL_PER_MOVE': 3, 'STARTING_HP': 60, 'VISION_RADIUS': 16, 'ATTACK_DAMAGE': 20, 'ATTACK_RADIUS': [1, 16], 'ATTACK_FUEL_COST': 15, 'DAMAGE_SPREAD': 3})]});
 var BCAbstractRobot =  __class__ ('BCAbstractRobot', [object], {
@@ -1704,85 +1694,7 @@ var BCAbstractRobot =  __class__ ('BCAbstractRobot', [object], {
 	});}
 });
 
-// Transcrypt'ed from Python, 2019-01-10 07:51:34
-var sort_visible_units_by_distance = function (robot) {
-	var visible = robot.get_visible_robots ();
-	var bots = [];
-	var bots_distance = [];
-	if (visible === null) {
-		return [];
-	}
-	for (var r of visible) {
-		if (!(robot.is_visible (r))) {
-			continue;
-		}
-		bots_distance.append (Math.pow (r ['x'] - robot.me ['x'], 2) + Math.pow (r ['y'] - robot.me ['y'], 2));
-		bots.append (r);
-	}
-	return (function () {
-		var __accu0__ = [];
-		for (var [_, x] of sorted (zip (bots_distance, bots))) {
-			__accu0__.append (x);
-		}
-		return __accu0__;
-	}) ();
-};
-var sort_visible_friendlies_by_distance = function (robot) {
-	var visible = robot.get_visible_robots ();
-	var friendly_bots = [];
-	var friendly_bots_distance = [];
-	if (visible === null) {
-		return [];
-	}
-	for (var r of visible) {
-		if (!(robot.is_visible (r))) {
-			continue;
-		}
-		if (r ['team'] == robot.me ['team']) {
-			friendly_bots_distance.append (Math.pow (r ['x'] - robot.me ['x'], 2) + Math.pow (r ['y'] - robot.me ['y'], 2));
-			friendly_bots.append (r);
-		}
-	}
-	return (function () {
-		var __accu0__ = [];
-		for (var [_, x] of sorted (zip (friendly_bots_distance, friendly_bots))) {
-			__accu0__.append (x);
-		}
-		return __accu0__;
-	}) ();
-};
-var sort_visible_enemies_by_distance = function (robot) {
-	var visible = robot.get_visible_robots ();
-	var enemy_bots = [];
-	var enemy_bots_distance = [];
-	if (visible === null) {
-		return [];
-	}
-	for (var r of visible) {
-		if (!(robot.is_visible (r))) {
-			continue;
-		}
-		if (r ['team'] != robot.me ['team']) {
-			enemy_bots_distance.append (Math.pow (r ['x'] - robot.me ['x'], 2) + Math.pow (r ['y'] - robot.me ['y'], 2));
-			enemy_bots.append (r);
-		}
-	}
-	return (function () {
-		var __accu0__ = [];
-		for (var [_, x] of sorted (zip (enemy_bots_distance, enemy_bots))) {
-			__accu0__.append (x);
-		}
-		return __accu0__;
-	}) ();
-};
-
-var __module_vision__ = /*#__PURE__*/Object.freeze({
-    sort_visible_units_by_distance: sort_visible_units_by_distance,
-    sort_visible_friendlies_by_distance: sort_visible_friendlies_by_distance,
-    sort_visible_enemies_by_distance: sort_visible_enemies_by_distance
-});
-
-// Transcrypt'ed from Python, 2019-01-10 07:51:34
+// Transcrypt'ed from Python, 2019-01-11 00:26:39
 var pi = Math.PI;
 var e = Math.E;
 var exp = Math.exp;
@@ -1873,7 +1785,7 @@ var __module_math__ = /*#__PURE__*/Object.freeze({
     modf: modf
 });
 
-// Transcrypt'ed from Python, 2019-01-10 07:51:34
+// Transcrypt'ed from Python, 2019-01-11 00:26:39
 var math = {};
 __nest__ (math, '', __module_math__);
 var _array = (function () {
@@ -1928,10 +1840,13 @@ var shuffle = function (x) {
 };
 seed ();
 
-// Transcrypt'ed from Python, 2019-01-10 07:51:34
+// Transcrypt'ed from Python, 2019-01-11 00:26:39
+var is_out_of_bounds = function (map_dim, pos_x, pos_y) {
+	return pos_x < 0 || pos_y < 0 || pos_x >= map_dim || pos_y >= map_dim;
+};
 var is_cell_occupied = function (occupied_map, pos_x, pos_y) {
 	var bounds_map = len (occupied_map);
-	if (pos_x < 0 || pos_y < 0 || pos_x >= bounds_map || pos_y >= bounds_map) {
+	if (is_out_of_bounds (bounds_map, pos_x, pos_y)) {
 		return true;
 	}
 	else if (occupied_map [pos_y] [pos_x] <= 0) {
@@ -1957,7 +1872,7 @@ var get_relative_karbonite_mine_positions = function (robot) {
 		for (var iter_j = 0; iter_j < map_length; iter_j++) {
 			if (karb_map [iter_i] [iter_j]) {
 				distance.append (Math.pow (iter_j - pos_x, 2) + Math.pow (iter_i - pos_y, 2));
-				queue.append (tuple ([iter_i, iter_j]));
+				queue.append (tuple ([iter_j, iter_i]));
 			}
 		}
 	}
@@ -1980,7 +1895,31 @@ var get_relative_fuel_mine_positions = function (robot) {
 		for (var iter_j = 0; iter_j < map_length; iter_j++) {
 			if (fuel_map [iter_i] [iter_j]) {
 				distance.append (Math.pow (iter_j - pos_x, 2) + Math.pow (iter_i - pos_y, 2));
-				queue.append (tuple ([iter_i, iter_j]));
+				queue.append (tuple ([iter_j, iter_i]));
+			}
+		}
+	}
+	return (function () {
+		var __accu0__ = [];
+		for (var [_, x] of sorted (zip (distance, queue))) {
+			__accu0__.append (x);
+		}
+		return __accu0__;
+	}) ();
+};
+var get_relative_mine_positions = function (robot) {
+	var pos_x = robot.me.x;
+	var pos_y = robot.me.y;
+	var fuel_map = robot.get_fuel_map ();
+	var karb_map = robot.get_karbonite_map ();
+	var map_length = len (fuel_map);
+	var queue = [];
+	var distance = [];
+	for (var iter_i = 0; iter_i < map_length; iter_i++) {
+		for (var iter_j = 0; iter_j < map_length; iter_j++) {
+			if (fuel_map [iter_i] [iter_j] || karb_map [iter_i] [iter_j]) {
+				distance.append (Math.pow (iter_j - pos_x, 2) + Math.pow (iter_i - pos_y, 2));
+				queue.append (tuple ([iter_j, iter_i]));
 			}
 		}
 	}
@@ -1994,138 +1933,18 @@ var get_relative_fuel_mine_positions = function (robot) {
 };
 
 var __module_utility__ = /*#__PURE__*/Object.freeze({
+    is_out_of_bounds: is_out_of_bounds,
     is_cell_occupied: is_cell_occupied,
     cells_around: cells_around,
     get_relative_karbonite_mine_positions: get_relative_karbonite_mine_positions,
-    get_relative_fuel_mine_positions: get_relative_fuel_mine_positions
+    get_relative_fuel_mine_positions: get_relative_fuel_mine_positions,
+    get_relative_mine_positions: get_relative_mine_positions
 });
 
-// Transcrypt'ed from Python, 2019-01-10 07:51:33
-var utility = {};
-var vision = {};
-__nest__ (vision, '', __module_vision__);
-__nest__ (utility, '', __module_utility__);
-var pilgrim = function (robot) {
-	var carry_karb = robot.me.karbonite;
-	var carry_fuel = robot.me.fuel;
-	var pos_x = robot.me.x;
-	var pos_y = robot.me.y;
-	if (carry_fuel > 80 || carry_karb > 18) {
-		return pilgrim_full (robot);
-	}
-	var ab = pilgrim_mine (robot);
-	if (ab != 0) {
-		return ab;
-	}
-	else {
-		var bc = pilgrim_move (robot);
-		if (bc != 0) {
-			return bc;
-		}
-	}
-};
-var pilgrim_move = function (robot) {
-	if (robot.fuel <= 2) {
-		return 0;
-	}
-	var pos_x = robot.me.x;
-	var pos_y = robot.me.y;
-	var passable_map = robot.get_passable_map ();
-	var karb_map = robot.get_karbonite_map ();
-	var fuel_map = robot.get_fuel_map ();
-	var occupied_map = robot.get_visible_robot_map ();
-	var directions = utility.cells_around ();
-	for (var direction of directions) {
-		if (!(utility.is_cell_occupied (occupied_map, pos_x + direction [1], pos_y + direction [0])) && (karb_map [pos_y + direction [0]] [pos_x + direction [1]] == 1 || fuel_map [pos_y + direction [0]] [pos_x + direction [1]] == 1)) {
-			return robot.move (direction [1], direction [0]);
-		}
-	}
-	for (var direction of directions) {
-		if (!(utility.is_cell_occupied (occupied_map, pos_x + direction [1], pos_y + direction [0])) && passable_map [pos_y + direction [0]] [pos_x + direction [1]] == 1) {
-			return robot.move (direction [1], direction [0]);
-		}
-	}
-	return 0;
-};
-var pilgrim_mine = function (robot) {
-	var pos_x = robot.me.x;
-	var pos_y = robot.me.y;
-	var karb_map = robot.get_karbonite_map ();
-	var fuel_map = robot.get_fuel_map ();
-	if (karb_map [pos_y] [pos_x] == 1 || fuel_map [pos_y] [pos_x] == 1) {
-		return robot.mine ();
-	}
-	else {
-		return 0;
-	}
-};
-var pilgrim_full = function (robot) {
-	var unit_church = SPECS ['CHURCH'];
-	var pos_x = robot.me.x;
-	var pos_y = robot.me.y;
-	var carry_karb = robot.me.karbonite;
-	var carry_fuel = robot.me.fuel;
-	var karb_map = robot.get_karbonite_map ();
-	var fuel_map = robot.get_fuel_map ();
-	var passable_map = robot.get_passable_map ();
-	var occupied_map = robot.get_visible_robot_map ();
-	var directions = [tuple ([-(1), -(1)]), tuple ([1, 1])];
-	if (karb_map [pos_y] [pos_x] == 1 || fuel_map [pos_y] [pos_x] == 1) {
-		var friendly_units = vision.sort_visible_friendlies_by_distance (robot);
-		if (friendly_units) {
-			for (var f_unit of friendly_units) {
-				var dx = f_unit.x - pos_x;
-				var dy = f_unit.y - pos_y;
-				if (f_unit.unit == unit_church) {
-					if (tuple ([dy, __in__ (dx, directions)]) && abs (dx) <= 1 && abs (dy) <= 1 && robot.get_visible_robot_map () [pos_y + dy] [pos_x + dx] > 0) {
-						return robot.give (dx, dy, carry_karb, carry_fuel);
-					}
-				}
-			}
-		}
-		for (var direction of directions) {
-			if (!(utility.is_cell_occupied (occupied_map, pos_x + direction [1], pos_y + direction [0])) && (karb_map [pos_y + direction [0]] [pos_x + direction [1]] != 1 || fuel_map [pos_y + direction [0]] [pos_x + direction [1]] != 1) && passable_map [pos_y + direction [0]] [pos_x + direction [1]] == 1) {
-				if (robot.karbonite > 50 && robot.fuel > 200) {
-					robot.log ("Drop a church like it's hot");
-					return robot.build_unit (unit_church, direction [1], direction [0]);
-				}
-			}
-		}
-	}
-};
-
-// Transcrypt'ed from Python, 2019-01-10 07:51:34
-var crusaders_move = function (self) {
-	self.log ('Crusader health: ' + str (self.me ['health']));
-	var choices = [tuple ([0, -(1)]), tuple ([1, -(1)]), tuple ([1, 0]), tuple ([1, 1]), tuple ([0, 1]), tuple ([-(1), 1]), tuple ([-(1), 0]), tuple ([-(1), -(1)])];
-	var choice = random.choice (choices);
-	self.log ('TRYING TO MOVE IN DIRECTION ' + str (choice));
-	return choice;
-};
-
-// Transcrypt'ed from Python, 2019-01-10 07:51:34
-var utility$1 = {};
-__nest__ (utility$1, '', __module_utility__);
-var castle = function (robot) {
-	if (robot.step < 2) {
-		return castle_build (robot, SPECS ['PILGRIM']);
-	}
-};
-var castle_build = function (robot, unit_type) {
-	var pos_x = robot.me.x;
-	var pos_y = robot.me.y;
-	var occupied_map = robot.get_visible_robot_map ();
-	var passable_map = robot.get_passable_map ();
-	var directions = utility$1.cells_around ();
-	for (var direction of directions) {
-		if (!(utility$1.is_cell_occupied (occupied_map, pos_x + direction [1], pos_y + direction [0])) && passable_map [pos_y + direction [0]] [pos_x + direction [1]] == 1) {
-			return robot.build_unit (unit_type, direction [1], direction [0]);
-		}
-	}
-};
-
-// Transcrypt'ed from Python, 2019-01-10 07:51:34
+// Transcrypt'ed from Python, 2019-01-11 00:26:39
 var math$1 = {};
+var utility = {};
+__nest__ (utility, '', __module_utility__);
 __nest__ (math$1, '', __module_math__);
 var _is_higher_than = function (a, b) {
 	if (a == null || b == null) {
@@ -2198,68 +2017,71 @@ var astar_heuristic = function (pos_initial, pos_final) {
 	var y2 = __left0__ [1];
 	var dx = abs (x1 - x2);
 	var dy = abs (y1 - y2);
-	return (dx + dy) - (math$1.sqrt (2) - 2) * min (dx, dy);
-};
-var neighbours = function (robot, pos_intermediate) {
-	var __left0__ = pos_intermediate;
-	var pos_x = __left0__ [0];
-	var pos_y = __left0__ [1];
-	var passable_map = robot.get_passable_map ();
-	var dirs = [tuple ([-(1), 0]), tuple ([-(1), 1]), tuple ([0, 1]), tuple ([1, 1]), tuple ([1, 0]), tuple ([1, -(1)]), tuple ([0, -(1)]), tuple ([-(1), -(1)])];
-	var result = [];
-	for (var dirc of dirs) {
-		var new_pos_x = pos_x + dirc [1];
-		var new_pos_y = pos_y + dirc [0];
-		if (!(new_pos_x < 0 || new_pos_y < 0 || new_pos_x >= len (passable_map) || new_pos_y >= len (passable_map)) && passable_map [new_pos_y] [new_pos_x]) {
-			result.append (tuple ([new_pos_x, new_pos_y]));
-		}
-	}
-	return result;
-};
-var retrace_path = function (pos_initial, pos_final, came_from) {
-	var current = pos_final;
-	var path = [];
-	while (current != pos_initial) {
-		path.append (current);
-		var current = came_from [current];
-	}
-	path.append (pos_initial);
-	path.reverse ();
-	return path;
+	var heuristic = (dx + dy) - min (dx, dy);
+	return heuristic * 5;
 };
 var astar_search = function (robot, pos_initial, pos_final) {
+	robot.log (robot.me.time);
+	var dirs = [tuple ([-(1), 0]), tuple ([-(1), 1]), tuple ([0, 1]), tuple ([1, 1]), tuple ([1, 0]), tuple ([1, -(1)]), tuple ([0, -(1)]), tuple ([-(1), -(1)])];
 	var nodes = [null];
 	var insert_counter = 0;
-	var passable_map = robot.get_passable_map ();
-	if (!(passable_map [pos_final [1]] [pos_final [0]])) {
-		return ;
-	}
-	var insert_counter = add (nodes, pos_initial, 0, insert_counter);
+	var block_kicker = 0;
 	var came_from = dict ({});
 	var cost_so_far = dict ({});
 	came_from [pos_initial] = null;
 	cost_so_far [pos_initial] = 0;
+	var occupied_map = robot.get_visible_robot_map ();
+	var passable_map = robot.get_passable_map ();
+	if (utility.is_out_of_bounds (occupied_map, pos_final [0], pos_final [1]) || !(passable_map [pos_final [1]] [pos_final [0]])) {
+		return tuple ([]);
+	}
+	var retrace_path = function (pos_initial, pos_final, came_from) {
+		var current = pos_final;
+		var path = [];
+		while (current != pos_initial) {
+			path.append (current);
+			var current = came_from [current];
+		}
+		path.reverse ();
+		return path;
+	};
+	var neighbours = function (pos_intermediate) {
+		var __left0__ = pos_intermediate;
+		var pos_x = __left0__ [0];
+		var pos_y = __left0__ [1];
+		var result = [];
+		for (var dirc of dirs) {
+			var new_pos_x = pos_x + dirc [1];
+			var new_pos_y = pos_y + dirc [0];
+			if (!(utility.is_cell_occupied (occupied_map, new_pos_x, new_pos_y)) && passable_map [new_pos_y] [new_pos_x]) {
+				result.append (tuple ([new_pos_x, new_pos_y]));
+			}
+		}
+		return result;
+	};
+	if (utility.is_out_of_bounds (occupied_map, pos_final [0], pos_final [1]) || !(passable_map [pos_final [1]] [pos_final [0]])) {
+		return tuple ([]);
+	}
+	var insert_counter = add (nodes, pos_initial, 0, insert_counter);
 	while (len (nodes) > 1) {
 		var current = py_pop (nodes);
-		if (str (current) == str (pos_final)) {
-			break;
+		if (str (current) == str (pos_final) || block_kicker > 40 || robot.me.time < 50) {
+			return retrace_path (pos_initial, current, came_from);
 		}
-		for (var iter_a of neighbours (robot, current)) {
+		for (var iter_a of neighbours (current)) {
 			if (iter_a) {
 				var new_cost = cost_so_far [current] + 1;
 				if (!__in__ (iter_a, cost_so_far) || new_cost < cost_so_far [iter_a]) {
 					cost_so_far [iter_a] = new_cost;
-					var priority = new_cost + astar_heuristic (pos_final, iter_a);
+					var priority = new_cost + astar_heuristic (iter_a, pos_final);
 					var insert_counter = add (nodes, iter_a, -(priority), insert_counter);
 					came_from [iter_a] = current;
 				}
 			}
 		}
+		block_kicker++;
 	}
-	robot.log (str (pos_initial));
-	robot.log (str (pos_final));
-	robot.log (came_from);
-	retrace_path (pos_initial, pos_final, came_from);
+	return retrace_path (pos_initial, pos_final, came_from);
 };
 
 var __module_pathfinding__ = /*#__PURE__*/Object.freeze({
@@ -2269,15 +2091,336 @@ var __module_pathfinding__ = /*#__PURE__*/Object.freeze({
     peek: peek,
     py_pop: py_pop,
     astar_heuristic: astar_heuristic,
-    neighbours: neighbours,
-    retrace_path: retrace_path,
     astar_search: astar_search
 });
 
-// Transcrypt'ed from Python, 2019-01-10 07:51:33
+// Transcrypt'ed from Python, 2019-01-11 00:26:39
+var message_to_castles = function (robot, mesg_type) {
+	robot.castleTalk (mesg_type);
+};
+var self_communicate_loop = function (robot) {
+	robot.signal (robot.me.signal, 0);
+};
+
+var __module_communications__ = /*#__PURE__*/Object.freeze({
+    message_to_castles: message_to_castles,
+    self_communicate_loop: self_communicate_loop
+});
+
+// Transcrypt'ed from Python, 2019-01-11 00:26:39
+var sort_visible_units_by_distance = function (robot) {
+	var visible = robot.get_visible_robots ();
+	var bots = [];
+	var bots_distance = [];
+	if (visible == null) {
+		return [];
+	}
+	for (var r of visible) {
+		if (!(robot.is_visible (r))) {
+			continue;
+		}
+		bots_distance.append (Math.pow (r ['x'] - robot.me ['x'], 2) + Math.pow (r ['y'] - robot.me ['y'], 2));
+		bots.append (r);
+	}
+	return (function () {
+		var __accu0__ = [];
+		for (var [_, x] of sorted (zip (bots_distance, bots))) {
+			__accu0__.append (x);
+		}
+		return __accu0__;
+	}) ();
+};
+var sort_visible_friendlies_by_distance = function (robot) {
+	var visible = robot.get_visible_robots ();
+	var friendly_bots = [];
+	var friendly_bots_distance = [];
+	if (visible == null) {
+		return [];
+	}
+	for (var r of visible) {
+		if (!(robot.is_visible (r))) {
+			continue;
+		}
+		if (r ['team'] == robot.me ['team']) {
+			friendly_bots_distance.append (Math.pow (r ['x'] - robot.me ['x'], 2) + Math.pow (r ['y'] - robot.me ['y'], 2));
+			friendly_bots.append (r);
+		}
+	}
+	return (function () {
+		var __accu0__ = [];
+		for (var [_, x] of sorted (zip (friendly_bots_distance, friendly_bots))) {
+			__accu0__.append (x);
+		}
+		return __accu0__;
+	}) ();
+};
+var sort_visible_enemies_by_distance = function (robot) {
+	var visible = robot.get_visible_robots ();
+	var enemy_bots = [];
+	var enemy_bots_distance = [];
+	if (visible == null) {
+		return [];
+	}
+	for (var r of visible) {
+		if (!(robot.is_visible (r))) {
+			continue;
+		}
+		if (r ['team'] != robot.me ['team']) {
+			enemy_bots_distance.append (Math.pow (r ['x'] - robot.me ['x'], 2) + Math.pow (r ['y'] - robot.me ['y'], 2));
+			enemy_bots.append (r);
+		}
+	}
+	return (function () {
+		var __accu0__ = [];
+		for (var [_, x] of sorted (zip (enemy_bots_distance, enemy_bots))) {
+			__accu0__.append (x);
+		}
+		return __accu0__;
+	}) ();
+};
+var all_karbonite = function (robot) {
+	var karb_count = 0;
+	for (var row of robot.karbonite_map) {
+		for (var cell of row) {
+			if (cell == true) {
+				karb_count++;
+			}
+		}
+	}
+	return karb_count;
+};
+var all_fuel = function (robot) {
+	var fuel_count = 0;
+	for (var row of robot.fuel_map) {
+		for (var cell of row) {
+			if (cell == true) {
+				fuel_count++;
+			}
+		}
+	}
+	return fuel_count;
+};
+
+var __module_vision__ = /*#__PURE__*/Object.freeze({
+    sort_visible_units_by_distance: sort_visible_units_by_distance,
+    sort_visible_friendlies_by_distance: sort_visible_friendlies_by_distance,
+    sort_visible_enemies_by_distance: sort_visible_enemies_by_distance,
+    all_karbonite: all_karbonite,
+    all_fuel: all_fuel
+});
+
+// Transcrypt'ed from Python, 2019-01-11 00:26:39
+var communications = {};
 var pathfinding = {};
+var utility$1 = {};
+var vision = {};
 __nest__ (pathfinding, '', __module_pathfinding__);
-var __name__$a = '__main__';
+__nest__ (communications, '', __module_communications__);
+__nest__ (vision, '', __module_vision__);
+__nest__ (utility$1, '', __module_utility__);
+var pilgrim = function (robot) {
+	communications.self_communicate_loop (robot);
+	if (robot.me.signal == 0) {
+		for (var friendly_unit of vision.sort_visible_friendlies_by_distance (robot)) {
+			if (friendly_unit.unit == 0 && friendly_unit.signal > -(1)) {
+				robot.signal (friendly_unit.signal, 0);
+				break;
+			}
+		}
+	}
+	var unit_signal = robot.me.signal;
+	var carry_karb = robot.me.karbonite;
+	var carry_fuel = robot.me.fuel;
+	var pos_x = robot.me.x;
+	var pos_y = robot.me.y;
+	if (carry_fuel > 80 || carry_karb > 18) {
+		return pilgrim_full (robot);
+	}
+	var ab = pilgrim_mine (robot);
+	if (ab != 0) {
+		return ab;
+	}
+	else {
+		var bc = pilgrim_move (robot, unit_signal);
+		if (bc != 0) {
+			return bc;
+		}
+	}
+};
+var move_to_specified_mine = function (robot, unit_signal) {
+	var nearest_mine_list = utility$1.get_relative_mine_positions (robot);
+	if (unit_signal < len (nearest_mine_list)) {
+		var tile_to_move_to = pathfinding.astar_search (robot, tuple ([robot.me.x, robot.me.y]), nearest_mine_list [unit_signal]);
+	}
+	else {
+		var unit_signal = __mod__ (unit_signal, nearest_mine_list);
+		var tile_to_move_to = pathfinding.astar_search (robot, tuple ([robot.me.x, robot.me.y]), nearest_mine_list [unit_signal]);
+	}
+	if (tile_to_move_to == null) {
+		return null;
+	}
+	else {
+		return tile_to_move_to [0];
+	}
+};
+var pilgrim_move = function (robot, unit_signal) {
+	if (robot.fuel <= 2) {
+		return 0;
+	}
+	var pos_x = robot.me.x;
+	var pos_y = robot.me.y;
+	var passable_map = robot.get_passable_map ();
+	var karb_map = robot.get_karbonite_map ();
+	var fuel_map = robot.get_fuel_map ();
+	var occupied_map = robot.get_visible_robot_map ();
+	var directions = utility$1.cells_around ();
+	for (var direction of directions) {
+		if (!(utility$1.is_cell_occupied (occupied_map, pos_x + direction [1], pos_y + direction [0])) && (karb_map [pos_y + direction [0]] [pos_x + direction [1]] == 1 || fuel_map [pos_y + direction [0]] [pos_x + direction [1]] == 1)) {
+			return robot.move (direction [1], direction [0]);
+		}
+	}
+	var move_to = move_to_specified_mine (robot, unit_signal);
+	if (move_to != null) {
+		var __left0__ = move_to;
+		var new_pos_x = __left0__ [0];
+		var new_pos_y = __left0__ [1];
+		return robot.move (new_pos_x - pos_x, new_pos_y - pos_y);
+	}
+	for (var direction of directions) {
+		if (!(utility$1.is_cell_occupied (occupied_map, pos_x + direction [1], pos_y + direction [0])) && passable_map [pos_y + direction [0]] [pos_x + direction [1]] == 1) {
+			return robot.move (direction [1], direction [0]);
+		}
+	}
+	return 0;
+};
+var pilgrim_mine = function (robot) {
+	var pos_x = robot.me.x;
+	var pos_y = robot.me.y;
+	var karb_map = robot.get_karbonite_map ();
+	var fuel_map = robot.get_fuel_map ();
+	if (karb_map [pos_y] [pos_x] == 1 || fuel_map [pos_y] [pos_x] == 1) {
+		return robot.mine ();
+	}
+	else {
+		return 0;
+	}
+};
+var pilgrim_full = function (robot) {
+	var unit_castle = SPECS ['CASTLE'];
+	var unit_church = SPECS ['CHURCH'];
+	var pos_x = robot.me.x;
+	var pos_y = robot.me.y;
+	var carry_karb = robot.me.karbonite;
+	var carry_fuel = robot.me.fuel;
+	var karb_map = robot.get_karbonite_map ();
+	var fuel_map = robot.get_fuel_map ();
+	var passable_map = robot.get_passable_map ();
+	var occupied_map = robot.get_visible_robot_map ();
+	var directions = utility$1.cells_around ();
+	if (karb_map [pos_y] [pos_x] == 1 || fuel_map [pos_y] [pos_x] == 1) {
+		var friendly_units = vision.sort_visible_friendlies_by_distance (robot);
+		if (friendly_units) {
+			for (var f_unit of friendly_units) {
+				var dx = f_unit.x - pos_x;
+				var dy = f_unit.y - pos_y;
+				if (f_unit.unit == unit_church || f_unit.unit == unit_castle) {
+					if (tuple ([dy, __in__ (dx, directions)]) && abs (dx) <= 1 && abs (dy) <= 1 && robot.get_visible_robot_map () [pos_y + dy] [pos_x + dx] > 0) {
+						return robot.give (dx, dy, carry_karb, carry_fuel);
+					}
+				}
+			}
+		}
+		for (var direction of directions) {
+			if (!(utility$1.is_cell_occupied (occupied_map, pos_x + direction [1], pos_y + direction [0])) && (karb_map [pos_y + direction [0]] [pos_x + direction [1]] != 1 || fuel_map [pos_y + direction [0]] [pos_x + direction [1]] != 1) && passable_map [pos_y + direction [0]] [pos_x + direction [1]] == 1) {
+				if (robot.karbonite > 50 && robot.fuel > 200) {
+					robot.log ("Drop a church like it's hot");
+					return robot.build_unit (unit_church, direction [1], direction [0]);
+				}
+			}
+		}
+	}
+};
+
+// Transcrypt'ed from Python, 2019-01-11 00:26:39
+var crusaders_move = function (self) {
+	self.log ('Crusader health: ' + str (self.me ['health']));
+	var choices = [tuple ([0, -(1)]), tuple ([1, -(1)]), tuple ([1, 0]), tuple ([1, 1]), tuple ([0, 1]), tuple ([-(1), 1]), tuple ([-(1), 0]), tuple ([-(1), -(1)])];
+	var choice = random.choice (choices);
+	self.log ('TRYING TO MOVE IN DIRECTION ' + str (choice));
+	return choice;
+};
+
+// Transcrypt'ed from Python, 2019-01-11 00:26:39
+var communications$1 = {};
+var utility$2 = {};
+var vision$1 = {};
+__nest__ (vision$1, '', __module_vision__);
+__nest__ (communications$1, '', __module_communications__);
+__nest__ (utility$2, '', __module_utility__);
+var castle = function (robot) {
+	var unit_castle = SPECS ['CASTLE'];
+	var unit_church = SPECS ['CHURCH'];
+	var unit_crusader = SPECS ['CRUSADER'];
+	var unit_pilgrim = SPECS ['PILGRIM'];
+	var unit_preacher = SPECS ['PREACHER'];
+	var unit_prophet = SPECS ['PROPHET'];
+	var pilgrim_count = 0;
+	var friendly_units = castle_all_friendly_units (robot);
+	var total_karbonite = vision$1.all_karbonite (robot);
+	var total_fuel = vision$1.all_fuel (robot);
+	for (var f_unit of friendly_units) {
+		if (f_unit.unit == unit_castle) ;
+		else if (f_unit.unit == unit_church) ;
+		else if (f_unit.unit == unit_crusader) ;
+		else if (f_unit.unit == unit_pilgrim) {
+			pilgrim_count++;
+		}
+		else if (f_unit.unit == unit_preacher) ;
+		else if (f_unit.unit == unit_prophet) ;
+	}
+	communications$1.self_communicate_loop (robot);
+	if (robot.step < 2) {
+		robot.signal (robot.me.signal + 1, 2);
+		return castle_build (robot, unit_pilgrim);
+	}
+	else if (robot.step > 200 && robot.karbonite > 100 && robot.fuel > 200) {
+		robot.signal (robot.me.signal + 1, 2);
+		return castle_build (robot, unit_pilgrim);
+	}
+	else if ((total_fuel + total_karbonite) * 0.55 < pilgrim_count && robot.karbonite > 100 && robot.fuel > 200) {
+		return castle_build (robot, unit_pilgrim);
+	}
+};
+var castle_build = function (robot, unit_type) {
+	var pos_x = robot.me.x;
+	var pos_y = robot.me.y;
+	var occupied_map = robot.get_visible_robot_map ();
+	var passable_map = robot.get_passable_map ();
+	var directions = utility$2.cells_around ();
+	for (var direction of directions) {
+		if (!(utility$2.is_cell_occupied (occupied_map, pos_x + direction [1], pos_y + direction [0])) && passable_map [pos_y + direction [0]] [pos_x + direction [1]] == 1) {
+			return robot.build_unit (unit_type, direction [1], direction [0]);
+		}
+	}
+};
+var castle_all_friendly_units = function (robot) {
+	var all_units = robot.get_visible_robots ();
+	var friendly_units = [];
+	for (var unit of all_units) {
+		if (unit.team == null) {
+			friendly_units.append (unit);
+		}
+		else if (robot.me.team == unit.team) {
+			friendly_units.append (unit);
+		}
+	}
+	return friendly_units;
+};
+
+// Transcrypt'ed from Python, 2019-01-11 00:26:39
+var pathfinding$1 = {};
+__nest__ (pathfinding$1, '', __module_pathfinding__);
+var __name__$b = '__main__';
 var go_home = function (self) {
 	var unit_map = (function () {
 		var __accu0__ = self;
@@ -2288,7 +2431,7 @@ var go_home = function (self) {
 var find_unit_type = function (self, map$$1) {
 };
 var MyRobot =  __class__ ('MyRobot', [BCAbstractRobot], {
-	__module__: __name__$a,
+	__module__: __name__$b,
 	step: __neg__ (1),
 	get turn () {return __get__ (this, function (self) {
 		self.step = __call__ (__iadd__, null, self.step, 1);
@@ -2299,20 +2442,10 @@ var MyRobot =  __class__ ('MyRobot', [BCAbstractRobot], {
 		var unit_pilgrim = __getitem__ (SPECS, 'PILGRIM');
 		var unit_preacher = __getitem__ (SPECS, 'PREACHER');
 		var unit_prophet = __getitem__ (SPECS, 'PROPHET');
-		if (__t__ (__eq__ (__mod__ (self.step, 750), 1))) {
+		if (__t__ (__t__ (__eq__ (__mod__ (self.step, 200), 3)) && __eq__ (unit_type, unit_castle))) {
 			(function () {
 				var __accu0__ = self;
-				return __call__ (__accu0__.log, __accu0__, 'Running pathfinding');
-			}) ();
-			(function () {
-				var __accu0__ = pathfinding;
-				return __call__ (__accu0__.astar_search, __accu0__, robot, tuple ([robot.me.x, robot.me.y]), tuple ([__sub__ (robot.me.x, 4), __sub__ (robot.me.y, 4)]));
-			}) ();
-		}
-		if (__t__ (__eq__ (__mod__ (self.step, 250), 0))) {
-			(function () {
-				var __accu0__ = self;
-				return __call__ (__accu0__.log, __accu0__, __add__ ('Total current karbonite is ', __call__ (str, null, self.karbonite)));
+				return __call__ (__accu0__.log, __accu0__, __add__ (__add__ (__add__ ('Total current karbonite is ', __call__ (str, null, self.karbonite)), ' turn '), __call__ (str, null, self.step)));
 			}) ();
 		}
 		if (__t__ (__eq__ (unit_type, unit_crusader))) {
@@ -2321,7 +2454,7 @@ var MyRobot =  __class__ ('MyRobot', [BCAbstractRobot], {
 				return __call__ (__accu0__.move, __accu0__, __call__ (crusaders_move, null, self));
 			}) ();
 		}
-		if (__t__ (__eq__ (unit_type, unit_castle))) {
+		else if (__t__ (__eq__ (unit_type, unit_castle))) {
 			return __call__ (castle, null, self);
 		}
 		else if (__t__ (__eq__ (unit_type, unit_pilgrim))) {

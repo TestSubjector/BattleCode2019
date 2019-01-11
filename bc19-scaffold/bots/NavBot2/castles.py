@@ -6,8 +6,8 @@ from battlecode import SPECS
 # Add code for locked castles
 
 def castle(robot):
-    if robot.step % 10 == 0:
-        robot.log("Script Helper Turn@" + str(robot.step))
+    # if robot.step % 10 == 0:
+    #     robot.log("Script Helper Turn@" + str(robot.step))
     unit_castle = SPECS['CASTLE']
     unit_church = SPECS['CHURCH']
     unit_crusader = SPECS['CRUSADER']
@@ -40,7 +40,7 @@ def castle(robot):
             prophet_count+=1
 
     # robot.log(str([unit.id for unit in vision.sort_visible_friendlies_by_distance(robot)]))
-
+    # robot.log("=> " + str(robot.me.signal))
     # If nothing else, replicate your own last message
     communications.self_communicate_loop(robot)
 
@@ -48,7 +48,7 @@ def castle(robot):
         # self.log("Building a crusader at " + str(self.me['x']+1) + ", " + str(self.me['y']+1))
         robot.signal(robot.me.signal + 1, 2)
         return castle_build(robot, unit_pilgrim)
-    elif robot.step > 500 and robot.karbonite > 100 and robot.fuel > 200:
+    elif robot.step > 200 and robot.karbonite > 100 and robot.fuel > 200:
         robot.signal(robot.me.signal + 1, 2)
         return castle_build(robot, unit_pilgrim)
     elif (total_fuel + total_karbonite) * .55 < pilgrim_count and robot.karbonite > 100 and robot.fuel > 200:
