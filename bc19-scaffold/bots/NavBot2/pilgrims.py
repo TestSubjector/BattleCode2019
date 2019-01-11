@@ -32,7 +32,7 @@ def pilgrim(robot):
         bc = pilgrim_move(robot, unit_signal)
         if bc !=0:
             return bc
-    
+
 def move_to_specified_mine(robot, unit_signal):
     nearest_mine_list = utility.get_relative_mine_positions(robot)
     if robot.step != 0:
@@ -61,7 +61,7 @@ def pilgrim_move(robot, unit_signal):
     occupied_map = robot.get_visible_robot_map()
     directions = utility.cells_around()
     # May change for impossible resources
-    
+
     for direction in directions:
         if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and (karb_map[pos_y + direction[0]][pos_x + direction[1]] == 1 or fuel_map[pos_y + direction[0]][pos_x + direction[1]] == 1):
             return robot.move(direction[1], direction[0])
@@ -71,7 +71,7 @@ def pilgrim_move(robot, unit_signal):
         # robot.log("check")
         new_pos_x, new_pos_y = move_to
         return robot.move(new_pos_x - pos_x, new_pos_y - pos_y)
-    
+
     for direction in directions:
         if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and passable_map[pos_y + direction[0]][pos_x + direction[1]] == 1:
             return robot.move(direction[1], direction[0])

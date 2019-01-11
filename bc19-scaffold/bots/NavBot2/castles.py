@@ -1,6 +1,7 @@
 import utility
 import communications
 import vision
+import mapping
 from battlecode import SPECS
 
 # Add code for locked castles
@@ -21,7 +22,7 @@ def castle(robot):
     pilgrim_count = 0
     preacher_count = 0
     prophet_count = 0
-    friendly_units = castle_all_friendly_units(robot)
+    friendly_units = _castle_all_friendly_units(robot)
     total_karbonite = vision.all_karbonite(robot)
     total_fuel = vision.all_fuel(robot)
 
@@ -82,7 +83,7 @@ def castle_build(robot, unit_type):
             robot.log("Building unit of type " + str(unit_type) + " at " + str(direction))
             return robot.build_unit(unit_type, direction[1], direction[0])
 
-def castle_all_friendly_units(robot):
+def _castle_all_friendly_units(robot):
     all_units = robot.get_visible_robots()
 
     friendly_units = []
