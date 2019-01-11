@@ -1,4 +1,4 @@
-from random import shuffle, random
+import random
 
 def is_out_of_bounds(map_dim, pos_x, pos_y):
     return pos_x < 0 or pos_y < 0 or pos_x >= map_dim or pos_y >= map_dim
@@ -14,7 +14,7 @@ def is_cell_occupied(occupied_map, pos_x, pos_y):
 
 def cells_around():
     dirs = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
-    shuffle(dirs, random)
+    random.shuffle(dirs, random.random)
     return dirs
 
 def get_relative_karbonite_mine_positions(robot):
@@ -31,7 +31,7 @@ def get_relative_karbonite_mine_positions(robot):
             if karb_map[iter_i][iter_j]:
                 distance.append((iter_j - pos_x)**2 + (iter_i - pos_y)**2)
                 queue.append((iter_j, iter_i))
-                
+
     return [x for _,x in sorted(zip(distance, queue))]
 
 def get_relative_fuel_mine_positions(robot):
@@ -48,7 +48,7 @@ def get_relative_fuel_mine_positions(robot):
             if fuel_map[iter_i][iter_j]:
                 distance.append((iter_j - pos_x)**2 + (iter_i - pos_y)**2)
                 queue.append((iter_j, iter_i))
-                
+
     return [x for _,x in sorted(zip(distance, queue))]
 
 def get_relative_mine_positions(robot):
@@ -66,5 +66,5 @@ def get_relative_mine_positions(robot):
             if fuel_map[iter_i][iter_j] or karb_map[iter_i][iter_j]:
                 distance.append((iter_j - pos_x)**2 + (iter_i - pos_y)**2)
                 queue.append((iter_j, iter_i))
-                
+
     return [x for _,x in sorted(zip(distance, queue))]
