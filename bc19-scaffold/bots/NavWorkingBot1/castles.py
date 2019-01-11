@@ -48,14 +48,14 @@ def castle(robot):
     communications.self_communicate_loop(robot)
 
     """ Building units -
-        Start with 2 pilgrims.
+        Start with 2 pilgrims per castle (as long as karbonite after building remains above 50).
         If sufficient resources(>100 karb, >200 fuel), build, in order -
             1 crusader per 3 pilgrims
             1 preacher per 2 crusaders (per 6 pilgrims)
             1 prophet per 3 crusaders (per 9 pilgrims)
             1 prophet per 2 resources on map
     """
-    if robot.step < 2:
+    if robot.step < 2 and robot.karbonite > 60:
         robot.signal(robot.me.signal + 1, 2)
         return castle_build(robot, unit_pilgrim)
     elif robot.karbonite > 100 and robot.fuel > 200:

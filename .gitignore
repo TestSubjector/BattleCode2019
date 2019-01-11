@@ -1,2 +1,2 @@
 *.bc19
-!replays/*.bc19
+!bc19-scaffold/replays/*.bc19

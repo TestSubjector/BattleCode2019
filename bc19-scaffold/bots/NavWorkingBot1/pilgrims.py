@@ -1,8 +1,8 @@
 import utility
 import vision
 import communications
-import pathfinding
 import constants
+import movement
 from battlecode import SPECS
 
 def pilgrim(robot):
@@ -28,6 +28,7 @@ def pilgrim(robot):
                 robot.signal(friendly_unit.signal, 0)
                 break
     
+    # TODO - Add code to make pilgrim move to church or castle rather just building a new church
     # Move Section
     unit_signal = robot.me.signal
     # If signal is for mine postion, then start self broadcasting that position, edge case is (0,0) mine
@@ -51,15 +52,6 @@ def add_mine_position_to_signal(robot, unit_signal):
         None
     else:
         return communications.convert_position_to_message(*utility.get_relative_mine_positions(robot)[unit_signal - 1])
-
-def move_to_specified_mine(robot, unit_signal):
-    nearest_mine = communications.convert_message_to_position(unit_signal)
-    if nearest_mine:
-        tile_to_move_to = pathfinding.astar_search(robot, (robot.me.x, robot.me.y), nearest_mine)
-    if tile_to_move_to == None:
-        return None
-    else:
-        return tile_to_move_to[0]
 
 def pilgrim_move(robot, unit_signal):
     if robot.fuel <= 2 :
@@ -95,6 +87,9 @@ def pilgrim_move(robot, unit_signal):
             return robot.move(direction[1], direction[0])
 
     return 0
+
+def move_to_specified_mine(robot, unit_signal):
+    return movement.move_to_specified_position(robot, unit_signal)
 
 def pilgrim_mine(robot):
     pos_x = robot.me.x
@@ -135,6 +130,8 @@ def pilgrim_full(robot):
                         robot.signal(0, 0)
                         return robot.give(dx, dy, carry_karb, carry_fuel)
 
+    # TODO - Make churches not be built if castle is in vision range
+    # TODO - If multiple mine spots in vision, try placing at proper place
         for direction in directions:
             if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and (karb_map[pos_y + direction[0]][pos_x + direction[1]] != 1 or fuel_map[pos_y + direction[0]][pos_x + direction[1]] != 1) and passable_map[pos_y + direction[0]][pos_x + direction[1]] == 1:
                 if robot.karbonite > 50 and robot.fuel > 200:

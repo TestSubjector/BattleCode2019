@@ -9,8 +9,8 @@ def _is_higher_than(a, b):
 
 # Move a node up until the parent is bigger
 
+# TODO - Add a fuel option and initialise the dirs vector, do stuff to it on the basis of that 
 def astar_search(robot, pos_initial, pos_final):
-    robot.log(robot.me.time)
     dirs = [(-1, 1), (1, 1), (1, -1), (-1, -1), (0, 2), (0, -2), (2, 0), (-2, 0), (0, 1), (0, -1), (1, 0), (-1, 0)]
 
     nodes = [None]
