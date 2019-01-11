@@ -1,5 +1,4 @@
 import math
-from itertools import islice, repeat, count, tee, chain
 import utility
 
 # Since no collection
@@ -10,74 +9,9 @@ def _is_higher_than(a, b):
 
 # Move a node up until the parent is bigger
 
-def heappush(heap, item):
-    """Push item onto heap, maintaining the heap invariant."""
-    heap.append(item)
-    _siftdown(heap, 0, len(heap)-1)
-
-def heappop(heap):
-    """Pop the smallest item off the heap, maintaining the heap invariant."""
-    lastelt = heap.pop()    # raises appropriate IndexError if heap is empty
-    if heap:
-        returnitem = heap[0]
-        heap[0] = lastelt
-        _siftup(heap, 0)
-    else:
-        returnitem = lastelt
-    return returnitem
-
-def heappushpop(heap, item):
-    """Fast version of a heappush followed by a heappop."""
-    if heap and heap[0] < item:
-        item, heap[0] = heap[0], item
-        _siftup(heap, 0)
-    return item
-
-def heapify(x):
-    """Transform list into a heap, in-place, in O(len(heap)) time."""
-    n = len(x)
-    for i in reversed(xrange(n//2)):
-        _siftup(x, i)
-
-def _siftdown(heap, startpos, pos):
-    newitem = heap[pos]
-    # Follow the path to the root, moving parents down until finding a place
-    # newitem fits.
-    while pos > startpos:
-        parentpos = (pos - 1) >> 1
-        parent = heap[parentpos]
-        if newitem < parent:
-            heap[pos] = parent
-            pos = parentpos
-            continue
-        break
-    heap[pos] = newitem
-
-def _siftup(heap, pos):
-    endpos = len(heap)
-    startpos = pos
-    newitem = heap[pos]
-    # Bubble up the smaller child until hitting a leaf.
-    childpos = 2*pos + 1    # leftmost child position
-    while childpos < endpos:
-        # Set childpos to index of smaller child.
-        rightpos = childpos + 1
-        if rightpos < endpos and not heap[childpos] < heap[rightpos]:
-            childpos = rightpos
-        # Move the smaller child up.
-        heap[pos] = heap[childpos]
-        pos = childpos
-        childpos = 2*pos + 1
-    # The leaf at pos is empty now.  Put newitem there, and bubble it up
-    # to its final resting place (by sifting its parents down).
-    heap[pos] = newitem
-    _siftdown(heap, startpos, pos)
-
-
-
 def astar_search(robot, pos_initial, pos_final):
     robot.log(robot.me.time)
-    dirs = [(-1, 1), (1, 1), (1, -1), (-1, -1), (0, 1), (0, -1), (1, 0), (-1, 0)]
+    dirs = [(-1, 1), (1, 1), (1, -1), (-1, -1), (0, 2), (0, -2), (2, 0), (-2, 0), (0, 1), (0, -1), (1, 0), (-1, 0)]
 
     nodes = [None]
     insert_counter = 0
@@ -178,21 +112,21 @@ def astar_search(robot, pos_initial, pos_final):
         dx = abs(x1 - x2) 
         dy = abs(y1 - y2)
         heuristic = (dx + dy) - min(dx, dy)
-        return heuristic * (1.001)
+        return heuristic * (1.0001)
 
     insert_counter = add(nodes, pos_initial, 0, insert_counter)
 
     while len(nodes) > 1:
         current = pop(nodes)
 
-        if robot.me.time < 70:
-            return retrace_path(pos_initial, current, came_from)
-        elif robot.me.time < 50:
-            robot.log("=> + " + str(len(nodes)))
-            return ()
-        elif str(current) == str(pos_final) or block_kicker > 100:
-            robot.log("=> * " + str(len(nodes)))
-            return retrace_path(pos_initial, current, came_from)
+        # if robot.me.time < 70:
+        #     return retrace_path(pos_initial, current, came_from)
+        # elif robot.me.time < 50:
+        #     robot.log("=> + " + str(len(nodes)))
+        #     return ()
+        # elif str(current) == str(pos_final) or block_kicker > 100:
+        #     robot.log("=> * " + str(len(nodes)))
+        #     return retrace_path(pos_initial, current, came_from)
 
         for iter_a in neighbours(current):
             if iter_a:
@@ -209,81 +143,4 @@ def astar_search(robot, pos_initial, pos_final):
 
     return retrace_path(pos_initial, pos_final, came_from)
 
-
-# def AStarSearch(robot, pos_initial, pos_final):
-
-#     dirs = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
-#     occupied_map = robot.get_visible_robot_map()
-#     passable_map = robot.get_passable_map()
-
-#     if utility.is_out_of_bounds(occupied_map, pos_final[0], pos_final[1]) or not passable_map[pos_final[1]][pos_final[0]]:
-#         return ()
-
-#     def neighbours(pos_intermediate):
-#         pos_x, pos_y = pos_intermediate
-#         result = []
-#         for dirc in dirs:
-#             new_pos_x = pos_x + dirc[1]
-#             new_pos_y = pos_y + dirc[0]
-#             if not utility.is_cell_occupied(occupied_map, new_pos_x, new_pos_y) and passable_map[new_pos_y][new_pos_x]:
-#                 result.append((new_pos_x , new_pos_y))
-#         return result
-
-#     G = {} #Actual movement cost to each position from the start position
-#     F = {} #Estimated movement cost of start to end going via this position
-
-#     #Initialize starting values
-#     G[pos_initial] = 0 
-#     F[pos_initial] = astar_heuristic(pos_initial, pos_final)
-#     closedVertices = set()
-#     openVertices = set([pos_initial])
-#     cameFrom = {}
-#     block_kicker = 0
-
-#     while len(openVertices) > 0:
-#         #Get the vertex in the open list with the lowest F score
-#         current = None
-#         currentFscore = None
-#         for pos in openVertices:
-#             if current is None or F[pos] < currentFscore:
-#                 currentFscore = F[pos]
-#                 current = pos
-#         #Check if we have reached the goal
-#         if str(current) == str(pos_final) or block_kicker > 3:
-#             #Retrace our route backward
-#             path = [current]
-#             while current in cameFrom:
-#             	current = cameFrom[current]
-#             	path.append(current)
-#             path.reverse()
-#             return path
-
-#         block_kicker += 1
-#         if block_kicker > 3:
-#             return ()
-# 	    #Mark the current vertex as closed
-#         openVertices.remove(current)
-#         closedVertices.add(current)
-
-#         #Update scores for vertices near the current position
-#         for neighbour in neighbours(current):
-#             if neighbour in closedVertices: 
-#                 continue #We have already processed this node exhaustively
-#             candidateG = G[current] + 1
-
-#             if neighbour not in openVertices:
-#                 openVertices.add(neighbour) #Discovered a new vertex
-#             elif candidateG >= G[neighbour]:
-#                 continue #This G score is worse than previously found
-
-#             #Adopt this G score
-#             cameFrom[neighbour] = current
-#             G[neighbour] = candidateG
-#             H = astar_heuristic(neighbour, pos_final)
-#             F[neighbour] = G[neighbour] + H
-#         robot.log(openVertices)
-#         robot.log(closedVertices)
-#         robot.log(G)
-#         robot.log(F)
-        
 

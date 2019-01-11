@@ -1,6 +1,6 @@
 from battlecode import BCAbstractRobot, SPECS
 import battlecode as bc
-import pathfinding
+import utility
 
 import castles
 import churches
@@ -41,7 +41,6 @@ class MyRobot(BCAbstractRobot):
 
         # DEBUG
         # self.log("START TURN " + self.step)
-
         # self.log("Running pathfinding")
 
         if self.step % 200 == 3 and unit_type == unit_castle:

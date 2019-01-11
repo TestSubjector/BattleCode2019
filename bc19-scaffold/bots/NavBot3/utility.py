@@ -68,3 +68,21 @@ def get_relative_mine_positions(robot):
                 queue.append((iter_j, iter_i))
 
     return [x for _,x in sorted(zip(distance, queue))]
+
+def convert_to_binary(decimal_number):
+    binary_num = 0
+    count = 1
+    while decimal_number != 0:
+        binary_num += (decimal_number % 2) *count
+        decimal_number = decimal_number // 2
+        count *= 10
+    return binary_num
+
+def convert_to_decimal(binary_number):
+    decimal_num = 0
+    count = 0
+    while binary_number != 0:
+        decimal_num += (binary_number % 10) * 2**count
+        binary_number = binary_number // 10
+        count += 1 
+    return decimal_num

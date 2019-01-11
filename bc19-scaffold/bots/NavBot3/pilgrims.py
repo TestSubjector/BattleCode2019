@@ -35,15 +35,14 @@ def pilgrim(robot):
     
 def move_to_specified_mine(robot, unit_signal):
     nearest_mine_list = utility.get_relative_mine_positions(robot)
-    if robot.step != 0:
+    if robot.step != 0 or unit_signal!= 0 :
         unit_signal -= 1
-    if unit_signal < len(nearest_mine_list):
-        # robot.log(nearest_mine_list)
-        # robot.log(nearest_mine_list[unit_signal])
-        tile_to_move_to = pathfinding.astar_search(robot, (robot.me.x, robot.me.y), nearest_mine_list[unit_signal])
-    else:
+    if unit_signal > len(nearest_mine_list):
         unit_signal = unit_signal % len(nearest_mine_list)
-        tile_to_move_to = pathfinding.astar_search(robot, (robot.me.x, robot.me.y), nearest_mine_list[unit_signal])
+    nearest_mine = nearest_mine_list[unit_signal]
+    robot.log(nearest_mine)
+    if nearest_mine:
+        tile_to_move_to = pathfinding.astar_search(robot, (robot.me.x, robot.me.y), nearest_mine)
     if tile_to_move_to == None:
         return None
     else:
