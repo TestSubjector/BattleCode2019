@@ -73,11 +73,11 @@ def astar_heuristic(pos_initial, pos_final):
     dx = abs(x1 - x2) 
     dy = abs(y1 - y2)
     heuristic = (dx + dy) - min(dx, dy)
-    return heuristic * (5)
+    return heuristic
 
 def astar_search(robot, pos_initial, pos_final):
     robot.log(robot.me.time)
-    dirs = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
+    dirs = [(-1, 1), (1, 1), (1, -1), (-1, -1), (0, 1), (0, -1), (1, 0), (-1, 0)]
 
     nodes = [None]
     insert_counter = 0
@@ -118,7 +118,9 @@ def astar_search(robot, pos_initial, pos_final):
     while len(nodes) > 1:
         current = pop(nodes)
 
-        if str(current) == str(pos_final) or block_kicker > 40 or robot.me.time < 50:
+        if robot.me.time < 50:
+            return ()
+        elif str(current) == str(pos_final) or block_kicker > 50:
             return retrace_path(pos_initial, current, came_from)
 
         for iter_a in neighbours(current):

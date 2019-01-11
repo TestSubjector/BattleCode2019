@@ -35,8 +35,8 @@ def pilgrim(robot):
     
 def move_to_specified_mine(robot, unit_signal):
     nearest_mine_list = utility.get_relative_mine_positions(robot)
-    # robot.log(str(nearest_mine_list))
-    # robot.log(str(nearest_mine_list[unit_signal]))
+    if robot.step != 0:
+        unit_signal -= 1
     if unit_signal < len(nearest_mine_list):
         # robot.log(nearest_mine_list)
         # robot.log(nearest_mine_list[unit_signal])
