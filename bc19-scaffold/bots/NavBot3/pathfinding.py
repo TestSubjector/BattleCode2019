@@ -119,14 +119,11 @@ def astar_search(robot, pos_initial, pos_final):
     while len(nodes) > 1:
         current = pop(nodes)
 
-        # if robot.me.time < 70:
-        #     return retrace_path(pos_initial, current, came_from)
-        # elif robot.me.time < 50:
-        #     robot.log("=> + " + str(len(nodes)))
-        #     return ()
-        # elif str(current) == str(pos_final) or block_kicker > 100:
-        #     robot.log("=> * " + str(len(nodes)))
-        #     return retrace_path(pos_initial, current, came_from)
+        if robot.me.time < 70:
+            return retrace_path(pos_initial, current, came_from)
+        elif str(current) == str(pos_final) or block_kicker > 50:
+            # robot.log("=> * " + str(len(nodes)))
+            return retrace_path(pos_initial, current, came_from)
 
         for iter_a in neighbours(current):
             if iter_a:

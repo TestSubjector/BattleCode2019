@@ -11,3 +11,10 @@ def message_to_castles(robot, mesg_type):
 
 def self_communicate_loop(robot):
     robot.signal(robot.me.signal, 0)
+
+def convert_position_to_message(pos_x, pos_y):
+    return pos_x * 100 + pos_y + 6464
+
+def convert_message_to_position(message):
+    message = message - 6464
+    return (message //100, message % 100)
