@@ -1,9 +1,9 @@
 import utility
 
-def crusader(robot):
-    crusader_move(robot)
+def preacher(robot):
+    preacher_move(robot)
 
-def crusader_move(robot):
+def preacher_move(robot):
     directions = utility.cells_around()
 
     for direction in directions:

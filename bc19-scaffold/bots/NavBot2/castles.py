@@ -44,18 +44,30 @@ def castle(robot):
     # If nothing else, replicate your own last message
     communications.self_communicate_loop(robot)
 
+    """ Building units -
+        Start with 2 pilgrims.
+        If sufficient resources(>100 karb, >200 fuel), build, in order -
+            1 crusader per 3 pilgrims
+            1 preacher per 2 crusaders (per 6 pilgrims)
+            1 prophet per 3 crusaders (per 9 pilgrims)
+            1 prophet per 2 resources on map
+    """
     if robot.step < 2:
-        # self.log("Building a crusader at " + str(self.me['x']+1) + ", " + str(self.me['y']+1))
         robot.signal(robot.me.signal + 1, 2)
         return castle_build(robot, unit_pilgrim)
-    elif robot.step > 500 and robot.karbonite > 100 and robot.fuel > 200:
-        robot.signal(robot.me.signal + 1, 2)
-        return castle_build(robot, unit_pilgrim)
-    elif (total_fuel + total_karbonite) * .55 < pilgrim_count and robot.karbonite > 100 and robot.fuel > 200:
-        return castle_build(robot, unit_pilgrim)
-    else:
-        None
-        # self.log("Castle health: " + self.me['health'])
+    elif robot.karbonite > 100 and robot.fuel > 200:
+        if crusader_count * 3 < pilgrim_count:
+            # robot.signal(robot.me.signal + 1, 2)
+            return castle_build(robot, unit_crusader)
+        elif preacher_count * 2 < crusader_count:
+            # robot.signal(robot.me.signal + 1, 2)
+            return castle_build(robot, unit_preacher)
+        elif prophet_count * 3 < crusader_count:
+            # robot.signal(robot.me.signal + 1, 2)
+            return castle_build(robot, unit_prophet)
+        elif (total_fuel + total_karbonite) * .55 < pilgrim_count:
+            robot.signal(robot.me.signal + 1, 2)
+            return castle_build(robot, unit_pilgrim)
     # robot.log(str(robot.me.signal))
 
 def castle_build(robot, unit_type):

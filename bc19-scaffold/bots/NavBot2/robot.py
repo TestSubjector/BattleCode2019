@@ -2,9 +2,12 @@ from battlecode import BCAbstractRobot, SPECS
 import battlecode as bc
 import pathfinding
 
-from castles import *
-from crusaders import *
-from pilgrims import *
+import castles
+import churches
+import crusaders
+import pilgrims
+import preachers
+import prophets
 
 __pragma__('iconv')
 __pragma__('tconv')
@@ -27,7 +30,7 @@ class MyRobot(BCAbstractRobot):
 
     def turn(self):
         self.step += 1
-        
+
         unit_type = self.me['unit']
         unit_castle = SPECS['CASTLE']
         unit_church = SPECS['CHURCH']
@@ -46,11 +49,17 @@ class MyRobot(BCAbstractRobot):
             # robot.log(str(self.me))
             self.log("Total current karbonite is " + str(self.karbonite) + " turn " + (str(self.step)))
 
-        if unit_type == unit_crusader:
-            return self.move(crusaders_move(self))
-        elif unit_type == unit_castle:
-            return castle(self)
+        if unit_type == unit_castle:
+            return castles.castle(self)
+        elif unit_type == unit_church:
+            return churches.church(self)
+        elif unit_type == unit_crusader:
+            return crusaders.crusader(self)
+        elif unit_type == unit_preacher:
+            return preachers.preacher(self)
+        elif unit_type == unit_prophet:
+            return prophets.prophet(self)
         elif unit_type == unit_pilgrim:
-            return pilgrim(self)
+            return pilgrims.pilgrim(self)
 
 robot = MyRobot()
