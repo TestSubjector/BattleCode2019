@@ -1,6 +1,7 @@
 import utility
 import communications
 import vision
+import mapping
 from battlecode import SPECS
 
 # Add code for locked castles
@@ -24,6 +25,8 @@ def castle(robot):
     friendly_units = castle_all_friendly_units(robot)
     total_karbonite = vision.all_karbonite(robot)
     total_fuel = vision.all_fuel(robot)
+
+    robot.log(mapping.get_nearby_map(robot.me.x, robot.me.y, robot.get_passable_map()))
 
     for f_unit in friendly_units:
         if f_unit.unit == unit_castle:
