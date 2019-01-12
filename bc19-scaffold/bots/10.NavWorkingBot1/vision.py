@@ -1,3 +1,5 @@
+# TODO - Function such that if a combat unit sees enemy, call combat_module
+
 def sort_visible_units_by_distance(robot):
     visible = robot.get_visible_robots()
 

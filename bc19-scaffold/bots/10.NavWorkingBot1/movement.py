@@ -25,3 +25,6 @@ def move_to_specified_position(robot, unit_signal):
     else:
         return tile_to_move_to[0]
 
+# TODO - Sentry formation near pilgrims and churches (is atleast 2 tiles away, form fit over impassale terrain
+# TODO - Rush archers, kite mages using knights
+# TODO - Make formation movements

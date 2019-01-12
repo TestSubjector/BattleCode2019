@@ -2,7 +2,7 @@ import utility
 import communications
 import vision
 import mapping
-from battlecode import SPECS
+import constants
 
 # Add code for locked castles
 
@@ -11,13 +11,7 @@ from battlecode import SPECS
 def castle(robot):
     # if robot.step % 10 == 0:
     #     robot.log("Script Helper Turn@" + str(robot.step))
-    unit_castle = SPECS['CASTLE']
-    unit_church = SPECS['CHURCH']
-    unit_crusader = SPECS['CRUSADER']
-    unit_pilgrim = SPECS['PILGRIM']
-    unit_preacher = SPECS['PREACHER']
-    unit_prophet = SPECS['PROPHET']
-
+    
     castle_count = 0
     church_count = 0
     crusader_count = 0
@@ -28,24 +22,20 @@ def castle(robot):
     total_karbonite = vision.all_karbonite(robot)
     total_fuel = vision.all_fuel(robot)
 
-    # mapping.find_chokepoints(robot)
-    # mapping.find_fuel_rich(robot)
-    # mapping.find_karbonite_rich(robot)
-    # mapping.find_resource_rich(robot)
-    # robot.log(robot.me.time)
+    # robot.log(mapping.analyze_map(robot.get_passable_map()))
 
     for f_unit in friendly_units:
-        if f_unit.unit == unit_castle:
+        if f_unit.unit == constants.unit_castle:
             castle_count+=1
-        elif f_unit.unit == unit_church:
+        elif f_unit.unit == constants.unit_church:
             church_count+=1
-        elif f_unit.unit == unit_crusader:
+        elif f_unit.unit == constants.unit_crusader:
             crusader_count+=1
-        elif f_unit.unit == unit_pilgrim:
+        elif f_unit.unit == constants.unit_pilgrim:
             pilgrim_count+=1
-        elif f_unit.unit == unit_preacher:
+        elif f_unit.unit == constants.unit_preacher:
             preacher_count+=1
-        elif f_unit.unit == unit_prophet:
+        elif f_unit.unit == constants.unit_prophet:
             prophet_count+=1
 
     # robot.log(str([unit.id for unit in vision.sort_visible_friendlies_by_distance(robot)]))
@@ -64,20 +54,20 @@ def castle(robot):
     #FIXME Need more pilgrims
     if robot.step < 2 and robot.karbonite > 60:
         robot.signal(robot.me.signal + 1, 2)
-        return castle_build(robot, unit_pilgrim)
+        return castle_build(robot, constants.unit_pilgrim)
     elif robot.karbonite > 100 and robot.fuel > 200:
         if crusader_count * 3 < pilgrim_count:
             # robot.signal(robot.me.signal + 1, 2)
-            return castle_build(robot, unit_crusader)
+            return castle_build(robot,constants.unit_crusader)
         elif preacher_count * 2 < crusader_count:
             # robot.signal(robot.me.signal + 1, 2)
-            return castle_build(robot, unit_preacher)
+            return castle_build(robot, constants.unit_preacher)
         elif prophet_count * 3 < crusader_count:
             # robot.signal(robot.me.signal + 1, 2)
-            return castle_build(robot, unit_prophet)
+            return castle_build(robot, constants.unit_prophet)
         elif (total_fuel + total_karbonite) * .55 < pilgrim_count:
             robot.signal(robot.me.signal + 1, 2)
-            return castle_build(robot, unit_pilgrim)
+            return castle_build(robot,constants.unit_pilgrim)
     # robot.log(str(robot.me.signal))
 
 def castle_build(robot, unit_type):

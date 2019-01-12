@@ -69,7 +69,7 @@ def pilgrim_move(robot, unit_signal):
 
     # Capture and start mining any resource if more than 50 turns since creation and no mine
     # TODO - Improve this to spinnet to if mine in visible region and empty go to it
-    if robot.me.turn > constants.pilgrim_will_scavenge_closeby_mines:
+    if robot.me.turn > constants.pilgrim_will_scavenge_closeby_mines_after_turns:
         for direction in directions:
             if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and (karb_map[pos_y + direction[0]][pos_x + direction[1]] == 1 or fuel_map[pos_y + direction[0]][pos_x + direction[1]] == 1):
                 return robot.move(direction[1], direction[0])

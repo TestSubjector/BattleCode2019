@@ -1,6 +1,7 @@
 from battlecode import BCAbstractRobot, SPECS
 import battlecode as bc
 import utility
+import constants
 
 import castles
 import churches
@@ -33,34 +34,27 @@ class MyRobot(BCAbstractRobot):
 
     def turn(self):
         self.step += 1
-
         unit_type = self.me['unit']
-        unit_castle = SPECS['CASTLE']
-        unit_church = SPECS['CHURCH']
-        unit_crusader = SPECS['CRUSADER']
-        unit_pilgrim = SPECS['PILGRIM']
-        unit_preacher = SPECS['PREACHER']
-        unit_prophet = SPECS['PROPHET']
 
         # DEBUG
         # self.log("START TURN " + self.step)
         # self.log("Running pathfinding")
 
-        if self.step % 200 == 3 and unit_type == unit_castle:
+        if self.step % 200 == 3 and unit_type == constants.unit_castle:
             # robot.log(str(self.me))
             self.log("Total current karbonite is " + str(self.karbonite) + " turn " + (str(self.step)))
 
-        if unit_type == unit_castle:
+        if unit_type == constants.unit_castle:
             return castles.castle(self)
         # elif unit_type == unit_church:
         #     return churches.church(self)
-        elif unit_type == unit_crusader:
+        elif unit_type == constants.unit_crusader:
             return crusaders.crusader(self)
-        elif unit_type == unit_preacher:
+        elif unit_type == constants.unit_preacher:
             return preachers.preacher(self)
-        elif unit_type == unit_prophet:
+        elif unit_type == constants.unit_prophet:
             return prophets.prophet(self)
-        elif unit_type == unit_pilgrim:
+        elif unit_type == constants.unit_pilgrim:
             return pilgrims.pilgrim(self)
 
 robot = MyRobot()
