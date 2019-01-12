@@ -3,7 +3,6 @@ import vision
 import communications
 import constants
 import movement
-from battlecode import SPECS
 
 def pilgrim(robot):
     communications.self_communicate_loop(robot)
@@ -23,7 +22,7 @@ def pilgrim(robot):
 
     # Recieve signal from castle on which mine to go to and start self broadcasting
     if robot.me.signal == 0:
-        for friendly_unit in vision.sort_visible_friendlies_by_distance(robot):
+        for _, friendly_unit in vision.sort_visible_friendlies_by_distance(robot):
             if friendly_unit.unit == 0 and friendly_unit.signal > -1:
                 robot.signal(friendly_unit.signal, 0)
                 break
@@ -50,7 +49,8 @@ def add_mine_position_to_signal(robot, unit_signal):
         # Find new mine to mine
         None
     else:
-        return communications.convert_position_to_message(*utility.get_relative_mine_positions(robot)[unit_signal - 1])
+        _, mine_positons = utility.get_relative_mine_positions(robot)
+        return communications.convert_position_to_message(*mine_positons[unit_signal - 1])
 
 def pilgrim_move(robot, unit_signal):
     if robot.fuel <= 2 :
@@ -104,9 +104,6 @@ def pilgrim_mine(robot):
         return 0
 
 def pilgrim_full(robot):
-    unit_castle = SPECS['CASTLE']
-    unit_church = SPECS['CHURCH']
-
     pos_x = robot.me.x
     pos_y = robot.me.y
     carry_karb = robot.me.karbonite
@@ -119,12 +116,12 @@ def pilgrim_full(robot):
     directions = utility.cells_around()
 
     if karb_map[pos_y][pos_x] == 1 or fuel_map[pos_y][pos_x] == 1:
-        friendly_units = vision.sort_visible_friendlies_by_distance(robot)
+        _, friendly_units = vision.sort_visible_friendlies_by_distance(robot)
         if friendly_units:
             for f_unit in friendly_units:
                 dx = f_unit.x - pos_x
                 dy = f_unit.y - pos_y
-                if f_unit.unit == unit_church or f_unit.unit == unit_castle:
+                if f_unit.unit == constants.unit_church or f_unit.unit == constants.unit_castle:
                     if (dy, dx in directions) and abs(dx) <= 1 and abs(dy) <= 1 and (robot.get_visible_robot_map()[pos_y + dy][pos_x + dx] > 0):
                         robot.signal(0, 0)
                         return robot.give(dx, dy, carry_karb, carry_fuel)
@@ -137,5 +134,5 @@ def pilgrim_full(robot):
                 if robot.karbonite > 50 and robot.fuel > 200:
                     robot.log("Drop a church like it's hot")
                     robot.signal(0, 0)
-                    return robot.build_unit(unit_church, direction[1], direction[0])
+                    return robot.build_unit(constants.unit_church, direction[1], direction[0])
 

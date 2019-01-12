@@ -12,7 +12,33 @@ unit_pilgrim = SPECS['PILGRIM']
 unit_preacher = SPECS['PREACHER']
 unit_prophet = SPECS['PROPHET']
 
+# Attack Damage
+# crusader_attack_damage = 
+
+# Attack Range
+crusader_max_attack_range = SPECS['UNITS'][SPECS["CRUSADER"]]['ATTACK_RADIUS'][1]
+prophet_min_attack_range = SPECS['UNITS'][SPECS["PROPHET"]]['ATTACK_RADIUS'][0]
+prophet_min_attack_range = SPECS['UNITS'][SPECS["PROPHET"]]['ATTACK_RADIUS'][1]
+preacher_max_attack_range = SPECS['UNITS'][SPECS["PREACHER"]]['ATTACK_RADIUS'][1]
+
+# Attack_
+
 pilgrim_will_scavenge_closeby_mines_after_turns = 50
+
+
+# SPEC API
+# public int CONSTRUCTION_KARBONITE;
+# public int CONSTRUCTION_FUEL;
+# public int KARBONITE_CAPACITY;
+# public int FUEL_CAPACITY;
+# public int SPEED;  
+# public int FUEL_PER_MOVE;
+# public int STARTING_HP;    
+# public int VISION_RADIUS;   
+# public int ATTACK_DAMAGE;
+# public int[] ATTACK_RADIUS;
+# public int ATTACK_FUEL_COST;
+# public int DAMAGE_SPREAD;
 
 def get_required_constant():
     None

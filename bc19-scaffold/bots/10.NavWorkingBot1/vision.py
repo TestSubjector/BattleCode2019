@@ -15,8 +15,8 @@ def sort_visible_units_by_distance(robot):
         bots_distance.append((r['x'] - robot.me['x'])**2 + (r['y'] - robot.me['y'])**2)
         bots.append(r)
 
-    store1, store2 = utility.insertionSort(bots_distance, bots)
-    return store2
+    sorted_distance, sorted_tuple = utility.insertionSort(bots_distance, bots)
+    return sorted_distance, sorted_tuple
 
 def sort_visible_friendlies_by_distance(robot):
     visible = robot.get_visible_robots()
@@ -33,8 +33,8 @@ def sort_visible_friendlies_by_distance(robot):
             friendly_bots_distance.append((r['x'] - robot.me['x'])**2 + (r['y'] - robot.me['y'])**2)
             friendly_bots.append(r)
 
-    store1, store2 = utility.insertionSort(friendly_bots_distance, friendly_bots)
-    return store2
+    sorted_distance, sorted_tuple = utility.insertionSort(friendly_bots_distance, friendly_bots)
+    return sorted_distance, sorted_tuple
 
 def sort_visible_enemies_by_distance(robot):
     visible = robot.get_visible_robots()
@@ -51,8 +51,8 @@ def sort_visible_enemies_by_distance(robot):
             enemy_bots_distance.append((r['x'] - robot.me['x'])**2 + (r['y'] - robot.me['y'])**2)
             enemy_bots.append(r)
 
-    store1, store2 = utility.insertionSort(enemy_bots_distance, enemy_bots)
-    return store2
+    sorted_distance, sorted_tuple = utility.insertionSort(enemy_bots_distance, enemy_bots)
+    return sorted_distance, sorted_tuple
 
 def all_karbonite(robot):
     karb_count = 0

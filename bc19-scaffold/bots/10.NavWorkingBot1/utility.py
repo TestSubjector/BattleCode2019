@@ -32,8 +32,8 @@ def get_relative_karbonite_mine_positions(robot):
                 distance.append((iter_j - pos_x)**2 + (iter_i - pos_y)**2)
                 queue.append((iter_j, iter_i))
 
-    store1, store2 = insertionSort(distance, queue)
-    return store2
+    sorted_distance, sorted_tuple = insertionSort(distance, queue)
+    return sorted_distance, sorted_tuple
 
 def get_relative_fuel_mine_positions(robot):
     pos_x = robot.me.x
@@ -50,8 +50,8 @@ def get_relative_fuel_mine_positions(robot):
                 distance.append((iter_j - pos_x)**2 + (iter_i - pos_y)**2)
                 queue.append((iter_j, iter_i))
 
-    store1, store2 = insertionSort(distance, queue)
-    return store2
+    sorted_distance, sorted_tuple = insertionSort(distance, queue)
+    return sorted_distance, sorted_tuple
 
 def get_relative_mine_positions(robot):
     pos_x = robot.me.x
@@ -69,8 +69,8 @@ def get_relative_mine_positions(robot):
                 distance.append((iter_j - pos_x)**2 + (iter_i - pos_y)**2)
                 queue.append((iter_j, iter_i))
 
-    store1, store2 = insertionSort(distance, queue)
-    return store2
+    sorted_distance, sorted_tuple = insertionSort(distance, queue)
+    return sorted_distance, sorted_tuple
 
 def insertionSort(alist, main_list):
     # Quick hack to guard against the conversion of elements into string while sorting
