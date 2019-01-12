@@ -1,3 +1,5 @@
+import utility
+
 def message_to_castles(robot, mesg_type):
     robot.castleTalk(mesg_type)
     # # Position requesting for pilgrims
@@ -18,3 +20,17 @@ def convert_position_to_message(pos_x, pos_y):
 def convert_message_to_position(message):
     message = message - 6464
     return (message //100, message % 100)
+
+def can_compute_others(message: int) -> bool:
+    bin_str = utility.convert_to_binary(message)
+    if bin_str[0] == "0":
+        return False
+    else:
+        return True
+
+def message_parsing(message: int, flag: int) -> bool:
+    if flag == 1:
+        return can_compute_others(message)
+    else:
+        # TODO: implement other flag logic
+        return False

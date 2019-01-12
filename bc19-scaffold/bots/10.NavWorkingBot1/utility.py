@@ -86,20 +86,16 @@ def insertionSort(alist, main_list):
         main_list[position] = currentvalue_ml
     return alist, main_list
 
-def convert_to_binary(decimal_number):
-    binary_num = 0
-    count = 1
-    while decimal_number != 0:
-        binary_num += (decimal_number % 2) *count
-        decimal_number = decimal_number // 2
-        count *= 10
-    return binary_num
+def convert_to_decimal(binary_str: str) -> int:
+    binary_str = "0b" + binary_str
+    return int(binary_str, 2)
 
-def convert_to_decimal(binary_number):
-    decimal_num = 0
-    count = 0
-    while binary_number != 0:
-        decimal_num += (binary_number % 10) * 2**count
-        binary_number = binary_number // 10
-        count += 1 
-    return decimal_num
+def convert_to_binary(dec: int) -> str:
+    ary = ["0" for i in range(16)]
+    itr = 15 # start from last index
+    while dec != 0:
+        rem = dec%2
+        ary[itr] = str(rem)
+        itr -= 1
+        dec = dec // 2
+    return "".join(ary)

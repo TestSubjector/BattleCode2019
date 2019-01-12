@@ -8,6 +8,7 @@ import crusaders
 import pilgrims
 import preachers
 import prophets
+import communications
 
 __pragma__('iconv')
 __pragma__('tconv')
