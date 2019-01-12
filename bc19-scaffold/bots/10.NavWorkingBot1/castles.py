@@ -26,7 +26,7 @@ def castle(robot):
     total_karbonite = vision.all_karbonite(robot)
     total_fuel = vision.all_fuel(robot)
 
-    robot.log(mapping.analyze_map(robot.get_passable_map()))
+    # robot.log(mapping.check_hoz_symmetry(robot.get_passable_map()))
 
     for f_unit in friendly_units:
         if f_unit.unit == unit_castle:

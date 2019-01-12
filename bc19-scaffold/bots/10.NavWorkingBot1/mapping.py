@@ -43,3 +43,16 @@ def analyze_map(given_map, grid_radius = 2):
         y += grid_radius * 2 + 1
 
     return results
+
+def check_hoz_symmetry(given_map):
+    start = 0
+    end = len(given_map) - 1
+
+    while start < end:
+        for i in range(len(given_map[start])):
+            if given_map[start][i] != given_map[end][i]:
+                return False
+        start += 1
+        end -= 1
+
+    return True
