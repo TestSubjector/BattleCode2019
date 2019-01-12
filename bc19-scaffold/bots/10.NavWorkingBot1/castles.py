@@ -28,8 +28,11 @@ def castle(robot):
     total_karbonite = vision.all_karbonite(robot)
     total_fuel = vision.all_fuel(robot)
 
-    mapping.analyze_map(robot.get_passable_map())
-    robot.log(robot.me.time)
+    # mapping.find_chokepoints(robot)
+    # mapping.find_fuel_rich(robot)
+    # mapping.find_karbonite_rich(robot)
+    # mapping.find_resource_rich(robot)
+    # robot.log(robot.me.time)
 
     for f_unit in friendly_units:
         if f_unit.unit == unit_castle:
@@ -58,7 +61,7 @@ def castle(robot):
             1 prophet per 3 crusaders (per 9 pilgrims)
             1 prophet per 2 resources on map
     """
-    #FIXME
+    #FIXME Need more pilgrims
     if robot.step < 2 and robot.karbonite > 60:
         robot.signal(robot.me.signal + 1, 2)
         return castle_build(robot, unit_pilgrim)

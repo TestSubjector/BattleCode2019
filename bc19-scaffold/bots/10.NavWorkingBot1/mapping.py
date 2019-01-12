@@ -1,3 +1,5 @@
+import constants
+
 def get_nearby_map(x, y, given_map, grid_radius = 2):
     sub_side = grid_radius * 2 + 1
     sub_map = []
@@ -48,7 +50,8 @@ def check_hoz_symmetry(given_map):
 
     return True
 
-def find_chokepoints(passable_map, grid_size = 2):
+def find_chokepoints(robot, grid_radius = 2):
+    given_map = robot.get_passable_map()
     sub_side = grid_radius * 2 + 1
     results = []
 
@@ -57,7 +60,59 @@ def find_chokepoints(passable_map, grid_size = 2):
         x = grid_radius + 1
         while x < len(given_map):
             ratio = get_map_ratio(x, y, given_map, grid_radius)
-            if (ratio > .6):
+            if ratio < constants.chokepoint_modifier:
+                results.append((x, y, ratio))
+            x += sub_side
+        y += sub_side
+
+    return results
+
+def find_karbonite_rich(robot, grid_radius = 2):
+    given_map = robot.karbonite_map
+    sub_side = grid_radius * 2 + 1
+    results = []
+
+    y = grid_radius + 1
+    while y < len(given_map):
+        x = grid_radius + 1
+        while x < len(given_map):
+            ratio = get_map_ratio(x, y, given_map, grid_radius)
+            if ratio > constants.karbonite_modifier:
+                results.append((x, y, ratio))
+            x += sub_side
+        y += sub_side
+
+    return results
+
+def find_fuel_rich(robot, grid_radius = 2):
+    given_map = robot.fuel_map
+    sub_side = grid_radius * 2 + 1
+    results = []
+
+    y = grid_radius + 1
+    while y < len(given_map):
+        x = grid_radius + 1
+        while x < len(given_map):
+            ratio = get_map_ratio(x, y, given_map, grid_radius)
+            if ratio > constants.fuel_modifier:
+                results.append((x, y, ratio))
+            x += sub_side
+        y += sub_side
+
+    return results
+
+def find_resource_rich(robot, grid_radius = 2):
+    fuel_map = robot.fuel_map
+    karbonite_map = robot.karbonite_map
+    sub_side = grid_radius * 2 + 1
+    results = []
+
+    y = grid_radius + 1
+    while y < len(fuel_map):
+        x = grid_radius + 1
+        while x < len(fuel_map):
+            ratio = get_map_ratio(x, y, fuel_map, grid_radius) + get_map_ratio(x, y, karbonite_map, grid_radius)
+            if ratio > constants.fuel_modifier:
                 results.append((x, y, ratio))
             x += sub_side
         y += sub_side
