@@ -6,6 +6,8 @@ from battlecode import SPECS
 
 # Add code for locked castles
 
+#TODO Stockpile
+
 def castle(robot):
     # if robot.step % 10 == 0:
     #     robot.log("Script Helper Turn@" + str(robot.step))
@@ -26,7 +28,8 @@ def castle(robot):
     total_karbonite = vision.all_karbonite(robot)
     total_fuel = vision.all_fuel(robot)
 
-    # robot.log(mapping.check_hoz_symmetry(robot.get_passable_map()))
+    mapping.analyze_map(robot.get_passable_map())
+    robot.log(robot.me.time)
 
     for f_unit in friendly_units:
         if f_unit.unit == unit_castle:
@@ -55,6 +58,7 @@ def castle(robot):
             1 prophet per 3 crusaders (per 9 pilgrims)
             1 prophet per 2 resources on map
     """
+    #FIXME
     if robot.step < 2 and robot.karbonite > 60:
         robot.signal(robot.me.signal + 1, 2)
         return castle_build(robot, unit_pilgrim)

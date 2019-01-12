@@ -7,10 +7,10 @@ from battlecode import SPECS
 
 def pilgrim(robot):
     communications.self_communicate_loop(robot)
-    
+
     carry_karb = robot.me.karbonite
     carry_fuel = robot.me.fuel
-    
+
     # The pilgrim is on a mine and wants to deposit resources
     if carry_fuel > 80 or carry_karb > 18:
         # robot.log("Nearing capacity")
@@ -20,14 +20,14 @@ def pilgrim(robot):
     pilgrim_is_mining = pilgrim_mine(robot)
     if pilgrim_is_mining !=0:
         return pilgrim_is_mining
-    
+
     # Recieve signal from castle on which mine to go to and start self broadcasting
     if robot.me.signal == 0:
         for friendly_unit in vision.sort_visible_friendlies_by_distance(robot):
             if friendly_unit.unit == 0 and friendly_unit.signal > -1:
                 robot.signal(friendly_unit.signal, 0)
                 break
-    
+
     # TODO - Add code to make pilgrim move to church or castle rather just building a new church
     # Move Section
     unit_signal = robot.me.signal
@@ -37,7 +37,7 @@ def pilgrim(robot):
         robot.log("Pilgrim " + str(unit_signal))
 
     # robot.log('Position is ' + str(pos_x) + ' ' + str(pos_y))
-    
+
     pilgrim_is_moving = pilgrim_move(robot, unit_signal)
     if pilgrim_is_moving !=0:
         return pilgrim_is_moving
@@ -65,8 +65,8 @@ def pilgrim_move(robot, unit_signal):
     occupied_map = robot.get_visible_robot_map()
     directions = utility.cells_around()
     # May change for impossible resources
-    
-        
+
+
     # Capture and start mining any resource if more than 50 turns since creation and no mine
     # TODO - Improve this to spinnet to if mine in visible region and empty go to it
     if robot.me.turn > constants.pilgrim_will_scavenge_closeby_mines:
@@ -74,13 +74,13 @@ def pilgrim_move(robot, unit_signal):
             if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and (karb_map[pos_y + direction[0]][pos_x + direction[1]] == 1 or fuel_map[pos_y + direction[0]][pos_x + direction[1]] == 1):
                 return robot.move(direction[1], direction[0])
     # Just move
-    if unit_signal >= 6464: 
+    if unit_signal >= 6464:
         move_to = move_to_specified_mine(robot, unit_signal)
         if move_to != None:
             # robot.log("check")
             new_pos_x, new_pos_y = move_to
             return robot.move(new_pos_x - pos_x, new_pos_y - pos_y)
-    
+
     # Random Movement when not enough time
     for direction in directions:
         if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and passable_map[pos_y + direction[0]][pos_x + direction[1]] == 1:
@@ -132,6 +132,7 @@ def pilgrim_full(robot):
 
     # TODO - Make churches not be built if castle is in vision range
     # TODO - If multiple mine spots in vision, try placing at proper place
+    # TODO - Don't put churches on resources
         for direction in directions:
             if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and (karb_map[pos_y + direction[0]][pos_x + direction[1]] != 1 or fuel_map[pos_y + direction[0]][pos_x + direction[1]] != 1) and passable_map[pos_y + direction[0]][pos_x + direction[1]] == 1:
                 if robot.karbonite > 50 and robot.fuel > 200:
