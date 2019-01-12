@@ -9,7 +9,7 @@ def crusader_move(robot):
     pos_y = robot.me.y
     passable_map = robot.get_passable_map()
     occupied_map = robot.get_visible_robot_map()
-    directions = utility.cells_around()
+    directions = utility.random_cells_around()
 
     crusader_is_attacking_or_aggressive_moving = combat_module.give_military_command(robot)
     if crusader_is_attacking_or_aggressive_moving != None:

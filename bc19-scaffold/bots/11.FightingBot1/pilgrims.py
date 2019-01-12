@@ -63,13 +63,13 @@ def pilgrim_move(robot, unit_signal):
     karb_map = robot.get_karbonite_map()
     fuel_map = robot.get_fuel_map()
     occupied_map = robot.get_visible_robot_map()
-    directions = utility.cells_around()
+    random_directions = utility.random_cells_around()
     # May change for impossible resources
 
     # Capture and start mining any resource if more than 50 turns since creation and no mine
     # TODO - Improve this code snippet to mine, if in visible region and empty
     if robot.me.turn > constants.pilgrim_will_scavenge_closeby_mines_after_turns:
-        for direction in directions:
+        for direction in random_directions:
             if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and (karb_map[pos_y + direction[0]][pos_x + direction[1]] == 1 or fuel_map[pos_y + direction[0]][pos_x + direction[1]] == 1):
                 return robot.move(direction[1], direction[0])
     # Just move
@@ -81,7 +81,7 @@ def pilgrim_move(robot, unit_signal):
             return robot.move(new_pos_x - pos_x, new_pos_y - pos_y)
 
     # Random Movement when not enough time
-    for direction in directions:
+    for direction in random_directions:
         if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and passable_map[pos_y + direction[0]][pos_x + direction[1]] == 1:
             return robot.move(direction[1], direction[0])
 
@@ -113,7 +113,7 @@ def pilgrim_full(robot):
     fuel_map = robot.get_fuel_map()
     passable_map = robot.get_passable_map()
     occupied_map = robot.get_visible_robot_map()
-    directions = utility.cells_around()
+    directions = constants.directions
 
     if karb_map[pos_y][pos_x] == 1 or fuel_map[pos_y][pos_x] == 1:
         _, friendly_units = vision.sort_visible_friendlies_by_distance(robot)
@@ -126,13 +126,21 @@ def pilgrim_full(robot):
                         robot.signal(0, 0)
                         return robot.give(dx, dy, carry_karb, carry_fuel)
 
-    # TODO - Make churches not be built if castle is in vision range
-    # TODO - If multiple mine spots in vision, try placing at proper place
-    # FIXME - Don't put churches on resources
-        for direction in directions:
-            if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and (karb_map[pos_y + direction[0]][pos_x + direction[1]] != 1 or fuel_map[pos_y + direction[0]][pos_x + direction[1]] != 1) and passable_map[pos_y + direction[0]][pos_x + direction[1]] == 1:
-                if robot.karbonite > 50 and robot.fuel > 200:
-                    robot.log("Drop a church like it's hot")
-                    robot.signal(0, 0)
-                    return robot.build_unit(constants.unit_church, direction[1], direction[0])
+    # FIXME - Make churches not be built if castle /other church is in vision range
+        potential_church_postitons = []
+        for church_pos in directions:
+            if (not utility.is_cell_occupied(occupied_map, pos_x + church_pos[1],  pos_y + church_pos[0])) and passable_map[pos_y + church_pos[0]][pos_x + church_pos[1]] == 1 and karb_map[pos_y + church_pos[0]][pos_x + church_pos[1]] != 1 and fuel_map[pos_y + church_pos[0]][pos_x + church_pos[1]] != 1:
+                count = 0
+                for direction in directions:
+                    if karb_map[pos_y + church_pos[0] + direction[0]][pos_x + church_pos[0] + direction[1]] == 1 or fuel_map[pos_y + church_pos[0] + direction[0]][pos_x + church_pos[0] + direction[1]] == 1:
+                        count += 1
+                potential_church_postitons.append((church_pos[0], church_pos[1], count))
+        max_resource_pos = (0, 0, 0)
+        for pos in potential_church_postitons:
+            if pos[2] > max_resource_pos[2]:
+                max_resource_pos = pos
+        if robot.karbonite > 50 and robot.fuel > 200:
+            robot.log("Drop a church like it's hot")
+            robot.signal(0, 0)
+            return robot.build_unit(constants.unit_church, max_resource_pos[1], max_resource_pos[0])
 

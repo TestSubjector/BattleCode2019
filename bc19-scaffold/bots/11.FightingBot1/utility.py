@@ -1,4 +1,5 @@
 import random
+import constants
 
 def is_out_of_bounds(map_dim, pos_x, pos_y):
     return pos_x < 0 or pos_y < 0 or pos_x >= map_dim or pos_y >= map_dim
@@ -12,8 +13,8 @@ def is_cell_occupied(occupied_map, pos_x, pos_y):
     else:
         return True
 
-def cells_around():
-    dirs = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
+def random_cells_around():
+    dirs = constants.directions
     random.shuffle(dirs, random.random)
     return dirs
 
@@ -81,7 +82,7 @@ def insertionSort(alist, main_list):
         while position > 0 and alist[position - 1] > currentvalue:
             alist[position] = alist[position-1]
             main_list[position] = main_list[position-1]
-            position = position -1 
+            position = position -1
         alist[position] = currentvalue
         main_list[position] = currentvalue_ml
     return alist, main_list

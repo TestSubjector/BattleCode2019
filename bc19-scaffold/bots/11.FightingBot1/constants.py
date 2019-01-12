@@ -5,6 +5,8 @@ chokepoint_modifier = .4
 karbonite_modifier = .05
 fuel_modifier = .05
 
+directions = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
+
 unit_castle = SPECS['CASTLE']
 unit_church = SPECS['CHURCH']
 unit_crusader = SPECS['CRUSADER']
@@ -36,10 +38,10 @@ pilgrim_will_scavenge_closeby_mines_after_turns = 50
 # public int CONSTRUCTION_FUEL;
 # public int KARBONITE_CAPACITY;
 # public int FUEL_CAPACITY;
-# public int SPEED;  
+# public int SPEED;
 # public int FUEL_PER_MOVE;
-# public int STARTING_HP;    
-# public int VISION_RADIUS;   
+# public int STARTING_HP;
+# public int VISION_RADIUS;
 # public int ATTACK_DAMAGE;
 # public int[] ATTACK_RADIUS;
 # public int ATTACK_FUEL_COST;
