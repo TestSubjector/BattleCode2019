@@ -56,15 +56,15 @@ def castle(robot):
         robot.signal(robot.me.signal + 1, 2)
         return castle_build(robot, constants.unit_pilgrim)
     elif robot.karbonite > 100 and robot.fuel > 200:
-        if (crusader_count * 3) < pilgrim_count:
-            # robot.signal(robot.me.signal + 1, 2)
-            return castle_build(robot,constants.unit_crusader)
+        #  if (crusader_count * 3) < pilgrim_count:
+            #  # robot.signal(robot.me.signal + 1, 2)
+            #  return castle_build(robot,constants.unit_crusader)
         # elif (preacher_count * 2) < crusader_count:
         #     # robot.signal(robot.me.signal + 1, 2)
         #     return castle_build(robot, constants.unit_preacher)
-        # elif prophet_count * 3 < crusader_count:
-        #     # robot.signal(robot.me.signal + 1, 2)
-        #     return castle_build(robot, constants.unit_prophet)
+        if prophet_count < pilgrim_count:
+           robot.signal(robot.me.signal + 1, 2)
+           return castle_build(robot, constants.unit_prophet)
         elif pilgrim_count < (total_fuel + total_karbonite) * .55:
             robot.signal(robot.me.signal + 1, 2)
             return castle_build(robot,constants.unit_pilgrim)
