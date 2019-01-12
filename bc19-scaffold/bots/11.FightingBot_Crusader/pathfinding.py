@@ -127,7 +127,7 @@ def astar_search(robot, pos_initial, pos_final, unit_type_move = 2):
     while len(nodes) > 1:
         current = pop(nodes)
 
-        if robot.me.time < 70:
+        if robot.me.time < 50:
             return retrace_path(pos_initial, current, came_from)
         elif str(current) == str(pos_final) or block_kicker > 50:
             # robot.log("=> * " + str(len(nodes)))

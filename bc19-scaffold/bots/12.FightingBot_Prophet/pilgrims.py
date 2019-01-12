@@ -5,6 +5,9 @@ import constants
 import movement
 
 def pilgrim(robot):
+
+    # TODO - Fix random difficult to find timeout errors happening for some pilgrims in large maps (-s 56)
+    # TODO - Add scout bots, who scout if no mine to mine
     communications.self_communicate_loop(robot)
 
     carry_karb = robot.me.karbonite
@@ -51,7 +54,7 @@ def add_mine_position_to_signal(robot, unit_signal):
         None
     else:
         _, mine_positons = utility.get_relative_mine_positions(robot)
-        return communications.convert_position_to_message(*mine_positons[unit_signal - 1])
+        return communications.convert_position_to_message(*(mine_positons[unit_signal - 1]))
 
 def pilgrim_move(robot, unit_signal):
     if robot.fuel <= 2 :

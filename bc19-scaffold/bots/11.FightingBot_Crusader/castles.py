@@ -56,15 +56,15 @@ def castle(robot):
         robot.signal(robot.me.signal + 1, 2)
         return castle_build(robot, constants.unit_pilgrim)
     elif robot.karbonite > 100 and robot.fuel > 200:
-        #  if (crusader_count * 3) < pilgrim_count:
-            #  # robot.signal(robot.me.signal + 1, 2)
-            #  return castle_build(robot,constants.unit_crusader)
+        if (crusader_count * 3) < pilgrim_count:
+            # robot.signal(robot.me.signal + 1, 2)
+            return castle_build(robot,constants.unit_crusader)
         # elif (preacher_count * 2) < crusader_count:
         #     # robot.signal(robot.me.signal + 1, 2)
         #     return castle_build(robot, constants.unit_preacher)
-        if prophet_count < pilgrim_count:
-           robot.signal(robot.me.signal + 1, 2)
-           return castle_build(robot, constants.unit_prophet)
+        # elif prophet_count * 3 < crusader_count:
+        #     # robot.signal(robot.me.signal + 1, 2)
+        #     return castle_build(robot, constants.unit_prophet)
         elif pilgrim_count < (total_fuel + total_karbonite) * .55:
             robot.signal(robot.me.signal + 1, 2)
             return castle_build(robot,constants.unit_pilgrim)
@@ -75,11 +75,11 @@ def castle_build(robot, unit_type):
     pos_y = robot.me.y
     occupied_map = robot.get_visible_robot_map()
     passable_map = robot.get_passable_map()
-    directions = utility.random_cells_around()
+    directions = utility.cells_around()
 
     for direction in directions:
         if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and passable_map[pos_y + direction[0]][pos_x + direction[1]] == 1:
-            robot.log("Building unit of type " + str(unit_type) + " at " + str(direction))
+            # robot.log("Building unit of type " + str(unit_type) + " at " + str(direction))
             return robot.build_unit(unit_type, direction[1], direction[0])
 
 def castle_all_friendly_units(robot):
