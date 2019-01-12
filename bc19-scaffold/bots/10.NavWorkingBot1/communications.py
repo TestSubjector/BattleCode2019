@@ -34,5 +34,4 @@ def message_parsing(message: int, flag: int) -> bool:
     else:
         # TODO: implement other flag logic
         return False
-# TODO - Have standby mode which is 1aaa_aaaa_aaaa_aaaa, so that a nearby unit can request computation from this unit
-# TODO - Have an active mode which 0aaa_aaaa_aaaa_aaaa, which means it is computing something
+

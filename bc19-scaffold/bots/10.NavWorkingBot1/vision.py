@@ -1,3 +1,4 @@
+import utility
 # TODO - Function such that if a combat unit sees enemy, call combat_module
 
 def sort_visible_units_by_distance(robot):
@@ -14,7 +15,8 @@ def sort_visible_units_by_distance(robot):
         bots_distance.append((r['x'] - robot.me['x'])**2 + (r['y'] - robot.me['y'])**2)
         bots.append(r)
 
-    return [x for _,x in sorted(zip(bots_distance, bots))]
+    store1, store2 = utility.insertionSort(bots_distance, bots)
+    return store2
 
 def sort_visible_friendlies_by_distance(robot):
     visible = robot.get_visible_robots()
@@ -31,7 +33,8 @@ def sort_visible_friendlies_by_distance(robot):
             friendly_bots_distance.append((r['x'] - robot.me['x'])**2 + (r['y'] - robot.me['y'])**2)
             friendly_bots.append(r)
 
-    return [x for _,x in sorted(zip(friendly_bots_distance, friendly_bots))]
+    store1, store2 = utility.insertionSort(friendly_bots_distance, friendly_bots)
+    return store2
 
 def sort_visible_enemies_by_distance(robot):
     visible = robot.get_visible_robots()
@@ -48,7 +51,8 @@ def sort_visible_enemies_by_distance(robot):
             enemy_bots_distance.append((r['x'] - robot.me['x'])**2 + (r['y'] - robot.me['y'])**2)
             enemy_bots.append(r)
 
-    return [x for _,x in sorted(zip(enemy_bots_distance, enemy_bots))]
+    store1, store2 = utility.insertionSort(enemy_bots_distance, enemy_bots)
+    return store2
 
 def all_karbonite(robot):
     karb_count = 0

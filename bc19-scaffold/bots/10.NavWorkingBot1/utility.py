@@ -32,7 +32,8 @@ def get_relative_karbonite_mine_positions(robot):
                 distance.append((iter_j - pos_x)**2 + (iter_i - pos_y)**2)
                 queue.append((iter_j, iter_i))
 
-    return [x for _,x in sorted(zip(distance, queue))]
+    store1, store2 = insertionSort(distance, queue)
+    return store2
 
 def get_relative_fuel_mine_positions(robot):
     pos_x = robot.me.x
@@ -49,9 +50,8 @@ def get_relative_fuel_mine_positions(robot):
                 distance.append((iter_j - pos_x)**2 + (iter_i - pos_y)**2)
                 queue.append((iter_j, iter_i))
 
-    return [x for _,x in sorted(zip(distance, queue))]
-
-
+    store1, store2 = insertionSort(distance, queue)
+    return store2
 
 def get_relative_mine_positions(robot):
     pos_x = robot.me.x

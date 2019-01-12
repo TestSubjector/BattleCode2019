@@ -34,7 +34,6 @@ def pilgrim(robot):
     # If signal is for mine postion, then start self broadcasting that position, edge case is (0,0) mine
     if unit_signal < 6464 and unit_signal > 0:
         robot.signal(add_mine_position_to_signal(robot, unit_signal), 0)
-        robot.log("Pilgrim " + str(unit_signal))
 
     # robot.log('Position is ' + str(pos_x) + ' ' + str(pos_y))
 
