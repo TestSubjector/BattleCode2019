@@ -40,6 +40,8 @@ class MyRobot(BCAbstractRobot):
         # self.log("START TURN " + self.step)
         # self.log("Running pathfinding")
 
+        self.castle_talk(self.me.unit)
+
         if self.step % 200 == 3 and unit_type == constants.unit_castle:
             # robot.log(str(self.me))
             self.log("Total current karbonite is " + str(self.karbonite) + " turn " + (str(self.step)))

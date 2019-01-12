@@ -132,7 +132,7 @@ def pilgrim_full(robot):
 
     # TODO - Make churches not be built if castle is in vision range
     # TODO - If multiple mine spots in vision, try placing at proper place
-    # TODO - Don't put churches on resources
+    # FIXME - Don't put churches on resources
         for direction in directions:
             if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and (karb_map[pos_y + direction[0]][pos_x + direction[1]] != 1 or fuel_map[pos_y + direction[0]][pos_x + direction[1]] != 1) and passable_map[pos_y + direction[0]][pos_x + direction[1]] == 1:
                 if robot.karbonite > 50 and robot.fuel > 200:
