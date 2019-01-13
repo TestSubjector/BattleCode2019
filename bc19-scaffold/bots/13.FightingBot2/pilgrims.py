@@ -25,7 +25,7 @@ def pilgrim(robot):
 
     # Recieve signal from castle on which mine to go to and start self broadcasting
     if robot.me.signal == 0:
-        _, friendly_units = vision.sort_visible_friendlies_by_distance(robot)
+        unused_store, friendly_units = vision.sort_visible_friendlies_by_distance(robot)
         for friendly_unit in friendly_units:
             if friendly_unit.unit == 0 and friendly_unit.signal > -1:
                 robot.signal(friendly_unit.signal, 0)
@@ -56,7 +56,7 @@ def add_mine_position_to_signal(robot, unit_signal):
         # Find new mine to mine
         None
     else:
-        _, mine_positons = utility.get_relative_mine_positions(robot)
+        unused_store , mine_positons = utility.get_relative_mine_positions(robot)
         return communications.convert_position_to_message(*(mine_positons[unit_signal - 1]))
 
 def pilgrim_move(robot, unit_signal):
@@ -122,7 +122,7 @@ def pilgrim_full(robot):
     directions = constants.directions
 
     if karb_map[pos_y][pos_x] == 1 or fuel_map[pos_y][pos_x] == 1:
-        _, friendly_units = vision.sort_visible_friendlies_by_distance(robot)
+        unused_store, friendly_units = vision.sort_visible_friendlies_by_distance(robot)
         if friendly_units:
             for f_unit in friendly_units:
                 dx = f_unit.x - pos_x

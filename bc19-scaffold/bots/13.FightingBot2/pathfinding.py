@@ -33,7 +33,7 @@ def astar_search(robot, pos_initial, pos_final, unit_type_move = 2):
     passable_map = robot.get_passable_map()
 
     if utility.is_out_of_bounds(occupied_map, pos_final[0], pos_final[1]) or not passable_map[pos_final[1]][pos_final[0]]:
-        return ()
+        return None
 
     def retrace_path(pos_initial, pos_final, came_from):
         current = pos_final 
@@ -127,9 +127,8 @@ def astar_search(robot, pos_initial, pos_final, unit_type_move = 2):
     while len(nodes) > 1:
         current = pop(nodes)
 
-        if robot.me.time < 50:
-            return retrace_path(pos_initial, current, came_from)
-        elif str(current) == str(pos_final) or block_kicker > 50:
+        
+        if str(current) == str(pos_final) or block_kicker > 50:
             # robot.log("=> * " + str(len(nodes)))
             return retrace_path(pos_initial, current, came_from)
 
@@ -142,6 +141,8 @@ def astar_search(robot, pos_initial, pos_final, unit_type_move = 2):
                     # robot.log(str(priority))
                     insert_counter =  add(nodes, iter_a, -priority, insert_counter)
                     came_from[iter_a] = current
+            if robot.me.time < 80:
+                return retrace_path(pos_initial, current, came_from)
         block_kicker += 1
         
     # robot.log(came_from)

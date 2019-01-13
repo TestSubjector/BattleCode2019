@@ -5,6 +5,7 @@ def prophet(robot):
     return prophet_move(robot)
 
 def prophet_move(robot):
+
     pos_x = robot.me.x
     pos_y = robot.me.y
     passable_map = robot.get_passable_map()

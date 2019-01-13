@@ -38,8 +38,8 @@ def _crusader_attack(robot):
             return robot.attack(enemy['x'] - unit_current_pos[0], enemy['y'] - unit_current_pos[1])
         else:
             enemy = visible_enemy_list[0]
-            robot.log(enemy)
-            robot.log(unit_current_pos)
+            # robot.log(enemy)
+            # robot.log(unit_current_pos)
             move_to = pathfinding.astar_search(robot, unit_current_pos, (enemy['x'], enemy['y']), 3)[0]
             if move_to != None and len(move_to) != 0:
                 # robot.log("Moving to " + str(move_to))
