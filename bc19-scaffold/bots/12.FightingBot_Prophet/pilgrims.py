@@ -135,8 +135,9 @@ def pilgrim_full(robot):
             if (not utility.is_cell_occupied(occupied_map, pos_x + church_pos[1],  pos_y + church_pos[0])) and passable_map[pos_y + church_pos[0]][pos_x + church_pos[1]] == 1 and karb_map[pos_y + church_pos[0]][pos_x + church_pos[1]] != 1 and fuel_map[pos_y + church_pos[0]][pos_x + church_pos[1]] != 1:
                 count = 0
                 for direction in directions:
-                    if karb_map[pos_y + church_pos[0] + direction[0]][pos_x + church_pos[0] + direction[1]] == 1 or fuel_map[pos_y + church_pos[0] + direction[0]][pos_x + church_pos[0] + direction[1]] == 1:
-                        count += 1
+                    if not utility.is_out_of_bounds(len(occupied_map), pos_x + church_pos[1] + direction[1], pos_y + church_pos[0] + direction[0]):
+                        if karb_map[pos_y + church_pos[0] + direction[0]][pos_x + church_pos[0] + direction[1]] == 1 or fuel_map[pos_y + church_pos[0] + direction[0]][pos_x + church_pos[0] + direction[1]] == 1:
+                            count += 1
                 potential_church_postitons.append((church_pos[0], church_pos[1], count))
         max_resource_pos = (0, 0, 0)
         for pos in potential_church_postitons:
