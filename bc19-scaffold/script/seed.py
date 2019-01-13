@@ -93,7 +93,7 @@ def pretty_print(stats, seed, done=False):
             color = "blue"
         if "Time Failed" in status:
             color = "yellow"
-        cprint("\t Seed %s\t: %s" % (itm, stats["seed"][itm]), color)
+        cprint("\t Seed %s\t: %s" % (itm, status), color)
     cprint("******************************", "magenta")
 
 def clearScreen():
