@@ -31,6 +31,9 @@ def pilgrim(robot):
                 robot.signal(friendly_unit.signal, 0)
                 break
 
+    if utility.fuel_less_check(robot):
+        return None
+
     # TODO - Add code to make pilgrim move to church or castle rather just building a new church
     # Move Section
     unit_signal = robot.me.signal
@@ -71,7 +74,7 @@ def pilgrim_move(robot, unit_signal):
 
     # Capture and start mining any resource if more than 50 turns since creation and no mine
     # TODO - Improve this code snippet to mine, if in visible region and empty
-    if robot.me.turn > constants.pilgrim_will_scavenge_closeby_mines_after_turns:
+    if robot.me.turn > constants.pilgrim_will_scavenge_closeby_mines_after_turns and robot.me.turn < constants.pilgrim_will_scavenge_closeby_mines_before_turns:
         for direction in random_directions:
             if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and (karb_map[pos_y + direction[0]][pos_x + direction[1]] == 1 or fuel_map[pos_y + direction[0]][pos_x + direction[1]] == 1):
                 return robot.move(direction[1], direction[0])

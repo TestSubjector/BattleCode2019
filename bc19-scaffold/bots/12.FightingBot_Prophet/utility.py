@@ -100,3 +100,12 @@ def convert_to_binary(dec: int) -> str:
         itr -= 1
         dec = dec // 2
     return "".join(ary)
+
+def fuel_less_check(robot):
+    if robot.me.turn > 200 and robot.fuel < 2000:
+        return True
+    elif robot.me.unit != constants.unit_pilgrim and robot.fuel < 200:
+        return True
+    else:
+        return False
+
