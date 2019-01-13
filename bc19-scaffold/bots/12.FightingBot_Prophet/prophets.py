@@ -14,6 +14,10 @@ def prophet_move(robot):
     prophet_attack_aggr_mode = combat_module.give_military_command(robot)
     if prophet_attack_aggr_mode != None:
         return prophet_attack_aggr_mode
+    
+    if utility.fuel_less_check(robot):
+        return None
+
     for direction in directions:
         if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and passable_map[pos_y + direction[0]][pos_x + direction[1]] == 1:
             return robot.move(direction[1], direction[0])

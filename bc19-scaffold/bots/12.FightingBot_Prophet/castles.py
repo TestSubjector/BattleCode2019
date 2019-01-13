@@ -7,6 +7,7 @@ import constants
 # Add code for locked castles
 
 #TODO Stockpile
+#TODO Pass on total umber of units from last round
 
 def castle(robot):
     # if robot.step % 10 == 0:
@@ -63,11 +64,13 @@ def castle(robot):
         #     # robot.signal(robot.me.signal + 1, 2)
         #     return castle_build(robot, constants.unit_preacher)
         if prophet_count < pilgrim_count:
-           robot.signal(robot.me.signal + 1, 2)
            return castle_build(robot, constants.unit_prophet)
         elif pilgrim_count < (total_fuel + total_karbonite) * .55:
             robot.signal(robot.me.signal + 1, 2)
             return castle_build(robot,constants.unit_pilgrim)
+        elif robot.step > 500 and robot.karbonite > 300 and robot.fuel > 300:
+            return castle_build(robot, constants.unit_prophet)
+
     # robot.log(str(robot.me.signal))
 
 def castle_build(robot, unit_type):
@@ -81,6 +84,8 @@ def castle_build(robot, unit_type):
         if (not utility.is_cell_occupied(occupied_map, pos_x + direction[1],  pos_y + direction[0])) and passable_map[pos_y + direction[0]][pos_x + direction[1]] == 1:
             # robot.log("Building unit of type " + str(unit_type) + " at " + str(direction))
             return robot.build_unit(unit_type, direction[1], direction[0])
+    robot.log("No space to build units anymore for castles")
+    return None
 
 def castle_all_friendly_units(robot):
     all_units = robot.get_visible_robots()
