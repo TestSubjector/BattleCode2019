@@ -10,11 +10,11 @@ import constants
 #TODO Pass on total umber of units from last round
 
 def castle(robot):
-    if robot.step % 10 == 0:
-        robot.log("Script Helper Turn@" + str(robot.step))
+    # if robot.step % 10 == 0:
+    #     robot.log("Script Helper Turn@" + str(robot.step))
 
-    if robot.step % 10 == 0:
-       robot.log("Turn Number" + str(robot.step))
+    # if robot.step % 10 == 0:
+    #    robot.log("Turn Number" + str(robot.step))
 
     castle_count = 0
     church_count = 0

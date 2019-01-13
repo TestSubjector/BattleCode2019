@@ -5,7 +5,7 @@ import utility
 def _is_higher_than(a, b):
     if a == None or b == None:
         return True
-    return b[1] < a[1] or (a[1] == b[1] and a[2] < b[2])
+    return a[1] > b[1] or (a[1] == b[1] and a[2] < b[2])
 
 # Move a node up until the parent is bigger
 
@@ -58,7 +58,10 @@ def astar_search(robot, pos_initial, pos_final, unit_type_move = 2):
     def _heapify(nodes, new_node_index):
         while 1 < new_node_index:
             new_node = nodes[new_node_index]
-            parent_index = new_node_index / 2
+            if new_node_index % 2 == 0:
+                parent_index = new_node_index / 2
+            else:
+                parent_index = (new_node_index - 1) / 2
             parent_node = nodes[parent_index]
             # Parent too big?
             if _is_higher_than(parent_node, new_node):
@@ -124,27 +127,21 @@ def astar_search(robot, pos_initial, pos_final, unit_type_move = 2):
 
     insert_counter = add(nodes, pos_initial, 0, insert_counter)
 
+    a_1 = robot.me.time
     while len(nodes) > 1:
         current = pop(nodes)
-
-        
-        if str(current) == str(pos_final) or block_kicker > 50:
+        if str(current) == str(pos_final) or block_kicker > 40:
             # robot.log("=> * " + str(len(nodes)))
             return retrace_path(pos_initial, current, came_from)
-
         for iter_a in neighbours(current):
-            if iter_a:
-                new_cost = cost_so_far[current] + 1
-                if iter_a not in cost_so_far or new_cost < cost_so_far[iter_a]:
-                    cost_so_far[iter_a] = new_cost
-                    priority = new_cost + astar_heuristic(iter_a, pos_final)
-                    # robot.log(str(priority))
-                    insert_counter =  add(nodes, iter_a, -priority, insert_counter)
-                    came_from[iter_a] = current
-            if robot.me.time < 80:
-                return retrace_path(pos_initial, current, came_from)
+            new_cost = cost_so_far[current] + 1
+            if len(iter_a) != 0 and (iter_a not in cost_so_far or new_cost < cost_so_far[iter_a]):
+                cost_so_far[iter_a] = new_cost
+                priority = new_cost + astar_heuristic(iter_a, pos_final)
+                # robot.log(str(priority))
+                insert_counter =  add(nodes, iter_a, -priority, insert_counter)
+                came_from[iter_a] = current
         block_kicker += 1
-        
     # robot.log(came_from)
 
     return retrace_path(pos_initial, pos_final, came_from)

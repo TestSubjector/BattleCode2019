@@ -56,8 +56,12 @@ def add_mine_position_to_signal(robot, unit_signal):
         # Find new mine to mine
         None
     else:
-        unused_store , mine_positons = utility.get_relative_mine_positions(robot)
-        return communications.convert_position_to_message(*(mine_positons[unit_signal - 1]))
+        unused_store , mine_positions = utility.get_relative_mine_positions(robot)
+        if unit_signal - 1 < len(mine_positions):
+            closest_mine = mine_positions[unit_signal - 1]
+            return communications.convert_position_to_message(closest_mine[0], closest_mine[1])
+        else:
+            return 0
 
 def pilgrim_move(robot, unit_signal):
     if robot.fuel <= 2 :

@@ -35,7 +35,7 @@ class MyRobot(BCAbstractRobot):
     def turn(self):
         self.step += 1
         unit_type = self.me['unit']
-
+        
         # DEBUG
         # self.log("START TURN " + self.step)
         # self.log("Running pathfinding")
