@@ -6,6 +6,7 @@ from termcolor import cprint
 import time
 import sys
 import os
+import shutil
 
 def main():
 
@@ -27,8 +28,8 @@ def main():
         }
     }
     checktime = time.time()
-    if not os.path.exists("seed_logs"):
-        os.makedirs("seed_logs")
+    shutil.rmtree("seed_logs",ignore_errors=True,onerror=None)
+    os.makedirs("seed_logs")
     for seed in range(1,1001):
         stats["turn"] = "Preparing..."
         pretty_print(stats, seed)
